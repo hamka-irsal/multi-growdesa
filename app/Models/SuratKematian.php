@@ -1,0 +1,32 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class SuratKematian extends Model
+{
+    use HasFactory;
+
+    protected $table = 'surat_kematian';
+
+    protected $fillable = [
+        'penduduk_id',
+        'surat_id',
+        'tanggal_kematian',
+    ];
+
+    // Relasi ke model Penduduk
+    public function penduduk()
+    {
+        return $this->belongsTo(Penduduk::class);
+    }
+
+    // Relasi ke model Surat
+    public function surat()
+    {
+        return $this->belongsTo(Surat::class);
+    }
+}
+
