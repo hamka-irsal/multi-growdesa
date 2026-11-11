@@ -24,7 +24,9 @@
     <!-- Type -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
     <!-- SweetAlert2 CSS -->
@@ -60,15 +62,16 @@
                 --danger: #D14343;
             }
 
-            html, body {
+            html,
+            body {
                 height: 100%;
             }
 
             body {
                 font-family: 'Inter', -apple-system, sans-serif;
                 background:
-                    linear-gradient(135deg, transparent 48%, rgba(255,255,255,.05) 49%, rgba(255,255,255,.05) 51%, transparent 52%),
-                    linear-gradient(45deg, transparent 48%, rgba(255,255,255,.05) 49%, rgba(255,255,255,.05) 51%, transparent 52%),
+                    linear-gradient(135deg, transparent 48%, rgba(255, 255, 255, .05) 49%, rgba(255, 255, 255, .05) 51%, transparent 52%),
+                    linear-gradient(45deg, transparent 48%, rgba(255, 255, 255, .05) 49%, rgba(255, 255, 255, .05) 51%, transparent 52%),
                     radial-gradient(120% 120% at 15% 0%, var(--green-600) 0%, var(--green-700) 45%, var(--green-900) 100%);
                 background-size: 42px 42px, 42px 42px, 100% 100%;
                 background-attachment: fixed;
@@ -85,16 +88,25 @@
                 width: 100%;
                 max-width: 440px;
                 margin: 0 auto;
-                animation: rise .55s cubic-bezier(.2,.7,.3,1) both;
+                animation: rise .55s cubic-bezier(.2, .7, .3, 1) both;
             }
 
             @keyframes rise {
-                from { opacity: 0; transform: translateY(14px); }
-                to { opacity: 1; transform: translateY(0); }
+                from {
+                    opacity: 0;
+                    transform: translateY(14px);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
             }
 
             @media (prefers-reduced-motion: reduce) {
-                .login-wrap { animation: none; }
+                .login-wrap {
+                    animation: none;
+                }
             }
 
             /* ---- Dual logo header ---- */
@@ -111,8 +123,8 @@
                 height: 74px;
                 border-radius: 50%;
                 background: var(--cream-50);
-                border: 3px solid rgba(255,255,255,.55);
-                box-shadow: 0 8px 20px rgba(0,0,0,.18);
+                border: 3px solid rgba(255, 255, 255, .55);
+                box-shadow: 0 8px 20px rgba(0, 0, 0, .18);
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -128,7 +140,7 @@
             .brand-divider {
                 width: 1px;
                 height: 40px;
-                background: rgba(255,255,255,.4);
+                background: rgba(255, 255, 255, .4);
                 position: relative;
             }
 
@@ -147,7 +159,7 @@
 
             .brand-caption {
                 text-align: center;
-                color: rgba(255,255,255,.85);
+                color: rgba(255, 255, 255, .85);
                 font-size: 12.5px;
                 font-weight: 600;
                 letter-spacing: .12em;
@@ -160,7 +172,7 @@
                 border: none;
                 border-radius: 18px;
                 overflow: hidden;
-                box-shadow: 0 24px 55px rgba(0,0,0,.28);
+                box-shadow: 0 24px 55px rgba(0, 0, 0, .28);
                 background: var(--cream-50);
             }
 
@@ -306,18 +318,26 @@
 
             .simple-footer {
                 font-size: 13px;
-                color: rgba(255,255,255,.75);
+                color: rgba(255, 255, 255, .75);
                 font-weight: 500;
                 text-align: center;
                 margin-top: 22px;
             }
 
             @media (max-width: 480px) {
-                .brand-badge { width: 62px; height: 62px; }
+                .brand-badge {
+                    width: 62px;
+                    height: 62px;
+                }
+
                 .card-primary .card-header,
-                .card-primary .card-body { padding-left: 24px; padding-right: 24px; }
+                .card-primary .card-body {
+                    padding-left: 24px;
+                    padding-right: 24px;
+                }
             }
         </style>
+
 
         <section class="section">
             <div class="container">
@@ -325,70 +345,115 @@
                     <div class="col-12">
                         <div class="login-wrap">
 
-                            <!-- Dua logo berdampingan: Kabupaten Takalar x GrowDesa -->
+                            <!-- Logo Kabupaten Takalar dan GrowDesa -->
                             <div class="brand-row">
                                 <div class="brand-badge">
                                     <img src="{{ asset('assets/img/logo_takalar.png') }}" alt="Logo Kabupaten Takalar">
                                 </div>
+
                                 <div class="brand-divider"></div>
+
                                 <div class="brand-badge">
                                     <img src="{{ asset('assets/img/logo_gd.jpeg') }}" alt="Logo GrowDesa">
                                 </div>
                             </div>
-                            <p class="brand-caption">Pemerintah Kabupaten Takalar &middot; GrowDesa</p>
+
+                            <p class="brand-caption">
+                                Pemerintah Kabupaten Takalar &middot; GrowDesa
+                            </p>
 
                             <div class="card card-primary">
                                 <div class="card-header">
-                                    <h4>Login Admin</h4>
+                                    <h4>Login GrowDesa</h4>
                                 </div>
+
                                 <div class="card-body">
-                                    <form method="POST" action="{{ route('admin.login.post') }}" class="needs-validation"
-                                        novalidate>
+
+                                    <!-- Pesan Error Login -->
+                                    @if (session('error'))
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            {{ session('error') }}
+
+                                            <button type="button" class="close" data-dismiss="alert"
+                                                aria-label="Tutup">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    @endif
+
+                                    <!-- Pesan Validasi -->
+                                    @if ($errors->any())
+                                        <div class="alert alert-danger" role="alert">
+                                            <ul class="mb-0 pl-3">
+                                                @foreach ($errors->all() as $error)
+                                                    <li>{{ $error }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endif
+
+                                    <form method="POST" action="{{ route('login.post') }}"
+                                        class="needs-validation" novalidate>
                                         @csrf
 
                                         <!-- Email -->
                                         <div class="form-group">
                                             <label for="email">Email</label>
+
                                             <div class="input-icon-group @error('email') is-invalid @enderror">
                                                 <i class="fas fa-envelope field-icon"></i>
-                                                <input id="email" type="email"
-                                                    class="form-control" name="email"
+
+                                                <input id="email" type="email" class="form-control" name="email"
                                                     value="{{ old('email') }}" placeholder="nama@instansi.go.id"
-                                                    tabindex="1" required autofocus>
+                                                    tabindex="1" autocomplete="username" required autofocus>
                                             </div>
+
                                             @error('email')
-                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                <div class="invalid-feedback d-block">
+                                                    {{ $message }}
+                                                </div>
                                             @enderror
                                         </div>
 
                                         <!-- Password -->
                                         <div class="form-group">
                                             <label for="password">Password</label>
+
                                             <div class="input-icon-group @error('password') is-invalid @enderror">
                                                 <i class="fas fa-lock field-icon"></i>
-                                                <input id="password" type="password"
-                                                    class="form-control" name="password"
-                                                    placeholder="Masukkan password" tabindex="2" required>
-                                                <button type="button" class="password-toggle" id="togglePassword" tabindex="-1" aria-label="Tampilkan password">
+
+                                                <input id="password" type="password" class="form-control"
+                                                    name="password" placeholder="Masukkan password" tabindex="2"
+                                                    autocomplete="current-password" required>
+
+                                                <button type="button" class="password-toggle" id="togglePassword"
+                                                    tabindex="-1" aria-label="Tampilkan password">
                                                     <i class="fas fa-eye" id="toggleIcon"></i>
                                                 </button>
                                             </div>
+
                                             @error('password')
-                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                <div class="invalid-feedback d-block">
+                                                    {{ $message }}
+                                                </div>
                                             @enderror
                                         </div>
 
-                                        <!-- Button -->
+                                        <!-- Tombol Login -->
                                         <div class="form-group mb-0">
-                                            <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
+                                            <button type="submit" class="btn btn-primary btn-lg btn-block"
+                                                tabindex="3">
+                                                <i class="fas fa-sign-in-alt mr-1"></i>
                                                 Login
                                             </button>
                                         </div>
                                     </form>
+
                                 </div>
                             </div>
+
                             <div class="simple-footer">
-                                Copyright &copy; growdesa 2026
+                                Copyright &copy; GrowDesa 2026
                             </div>
 
                         </div>
@@ -428,7 +493,7 @@
         const passwordInput = document.getElementById('password');
         const toggleIcon = document.getElementById('toggleIcon');
         if (togglePassword) {
-            togglePassword.addEventListener('click', function () {
+            togglePassword.addEventListener('click', function() {
                 const isHidden = passwordInput.type === 'password';
                 passwordInput.type = isHidden ? 'text' : 'password';
                 toggleIcon.classList.toggle('fa-eye');

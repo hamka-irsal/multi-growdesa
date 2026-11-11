@@ -9,7 +9,7 @@ return new class extends Migration {
     {
         Schema::create('profil_desa', function (Blueprint $table) {
             $table->id();
-
+            $table->foreignId('desa_id')->nullable()->constrained('desa')->nullOnDelete();
             // Profil utama
             $table->text('selamat_datang')->nullable();
             $table->string('nama_kepdes');

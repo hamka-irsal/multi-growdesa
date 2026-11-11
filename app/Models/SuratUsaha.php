@@ -12,6 +12,7 @@ class SuratUsaha extends Model
     protected $table = 'surat_usaha';
 
     protected $fillable = [
+        'desa_id',
         'penduduk_id',
         'surat_id',
         'nama_usaha',
@@ -19,6 +20,11 @@ class SuratUsaha extends Model
         'alamat_usaha',
         'tahun_berdiri',
     ];
+
+    public function desa()
+    {
+        return $this->belongsTo(Desa::class);
+    }
 
     public function penduduk()
     {
@@ -30,4 +36,3 @@ class SuratUsaha extends Model
         return $this->belongsTo(Surat::class);
     }
 }
-

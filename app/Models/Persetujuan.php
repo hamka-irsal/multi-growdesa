@@ -12,11 +12,17 @@ class Persetujuan extends Model
     protected $table = 'persetujuan';
 
     protected $fillable = [
+        'desa_id',
         'jenis_surat_id',
         'aparat_id',
         'jabatan',
         'file_ttd',
     ];
+
+    public function desa()
+    {
+        return $this->belongsTo(Desa::class);
+    }
 
     public function jenisSurat()
     {

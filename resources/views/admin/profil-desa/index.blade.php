@@ -92,7 +92,7 @@
         padding: 12px 26px !important;
     }
 </style>
-@extends('admin.layouts.app')
+@extends('layouts.app')
 
 @section('page-title', 'Data-Aparat Admin')
 

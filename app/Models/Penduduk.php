@@ -12,6 +12,7 @@ class Penduduk extends Model
     protected $table = 'penduduk';
 
     protected $fillable = [
+        'desa_id',
         'user_id',
         'nik',
         'nama_lengkap',
@@ -27,11 +28,6 @@ class Penduduk extends Model
         'tanggal_perkawinan',
         'foto',
         'alamat',
-        'desa_kelurahan',
-        'kecamatan',
-        'dusun',
-        'kabupaten_kota',
-        'provinsi',
         'kewarganegaraan',
         'ayah',
         'ibu',
@@ -39,6 +35,11 @@ class Penduduk extends Model
         'foto_selfie',
         'foto_ktp',
     ];
+
+    public function desa()
+    {
+        return $this->belongsTo(Desa::class);
+    }
 
     public function user()
     {

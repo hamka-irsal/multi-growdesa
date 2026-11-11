@@ -9,6 +9,7 @@ class ProfilDesa extends Model
     protected $table = 'profil_desa';
 
     protected $fillable = [
+        'desa_id',
         'selamat_datang',
         'nama_kepdes',
         'foto_kepdes',
@@ -34,4 +35,9 @@ class ProfilDesa extends Model
         'sosmed_yt',
         'sosmed_tiktok',
     ];
+
+    public function desa()
+    {
+        return $this->belongsTo(Desa::class);
+    }
 }

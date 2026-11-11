@@ -9,6 +9,7 @@ return new class extends Migration {
     {
         Schema::create('aparat', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('desa_id')->nullable()->constrained('desa')->nullOnDelete();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('nama');
             $table->string('jabatan');

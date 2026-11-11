@@ -12,11 +12,17 @@ class SuratPengantar extends Model
     protected $table = 'surat_pengantar';
 
     protected $fillable = [
+        'desa_id',
         'penduduk_id',
         'surat_id',
         'keperluan_antar',
         'keterangan_antar',
     ];
+
+    public function desa()
+    {
+        return $this->belongsTo(Desa::class);
+    }
 
     // Relasi ke model Penduduk
     public function penduduk()

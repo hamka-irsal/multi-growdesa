@@ -12,6 +12,7 @@ class Apbdes extends Model
     protected $table = 'apbdes';
 
     protected $fillable = [
+        'desa_id',
         'tahun',
         'total_pendapatan',
         'realisasi_pendapatan',
@@ -41,4 +42,9 @@ class Apbdes extends Model
         'pemberdayaan' => 'decimal:2',
         'lainnya' => 'decimal:2',
     ];
+
+    public function desa()
+    {
+        return $this->belongsTo(Desa::class);
+    }
 }

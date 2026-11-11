@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 
 @section('page-title', 'Data-Operator Admin')
 
@@ -814,7 +814,7 @@
         </div>
     </div>
 
-    
+
     <script>
         $(document).ready(function() {
             // 🟢 AJAX Tambah User

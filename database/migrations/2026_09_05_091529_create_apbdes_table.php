@@ -9,7 +9,7 @@ return new class extends Migration {
     {
         Schema::create('apbdes', function (Blueprint $table) {
             $table->id();
-
+            $table->foreignId('desa_id')->nullable()->constrained('desa')->nullOnDelete();
             $table->year('tahun')->unique();
 
             $table->decimal('total_pendapatan', 15, 2)->default(0);

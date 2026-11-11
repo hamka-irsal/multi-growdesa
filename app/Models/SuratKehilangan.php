@@ -13,11 +13,17 @@ class SuratKehilangan extends Model
     protected $table = 'surat_kehilangan';
 
     protected $fillable = [
+        'desa_id',
         'penduduk_id',
         'surat_id',
         'barang_hilang',
         'keperluan_kepengurusan',
     ];
+
+    public function desa()
+    {
+        return $this->belongsTo(Desa::class);
+    }
 
     // Relasi ke penduduk
     public function penduduk()

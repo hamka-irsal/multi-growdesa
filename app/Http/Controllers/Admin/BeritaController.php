@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -15,19 +14,52 @@ use Illuminate\Support\Str;
 class BeritaController extends Controller
 {
     /**
+     * Mengambil desa_id dari akun yang sedang login.
+     */
+    private function currentDesaId(): int
+    {
+        $desaId = auth()->user()?->desa_id;
+
+        abort_unless(
+            $desaId,
+            403,
+            'Akun tidak terhubung dengan desa.'
+        );
+
+        return (int) $desaId;
+    }
+
+
+    /**
      * Menampilkan halaman data berita.
      */
     public function index(Request $request)
     {
+        $desaId = $this->currentDesaId();
+
         $perPage = $request->input('perPage', 10);
         $search = $request->input('search');
 
-        $query = Berita::with('category');
+        /*
+        |--------------------------------------------------------------------------
+        | Query berita berdasarkan desa
+        |--------------------------------------------------------------------------
+        */
+        $query = Berita::with('category')
+            ->where('desa_id', $desaId);
 
+        /*
+        |--------------------------------------------------------------------------
+        | Search
+        |--------------------------------------------------------------------------
+        */
         if (!empty($search)) {
             $query->where(function ($query) use ($search) {
+
                 $query->where('judul', 'like', "%{$search}%")
+
                     ->orWhere('penulis', 'like', "%{$search}%")
+
                     ->orWhereHas('category', function ($categoryQuery) use ($search) {
                         $categoryQuery->where(
                             'name',
@@ -38,11 +70,20 @@ class BeritaController extends Controller
             });
         }
 
+        /*
+        |--------------------------------------------------------------------------
+        | Pagination
+        |--------------------------------------------------------------------------
+        */
         $berita = $query
             ->latest()
             ->paginate($perPage);
 
-        // Data kategori untuk dropdown tambah dan edit berita
+        /*
+        |--------------------------------------------------------------------------
+        | Data kategori
+        |--------------------------------------------------------------------------
+        */
         $categories = Category::orderBy('name', 'asc')->get();
 
         return view(
@@ -64,9 +105,17 @@ class BeritaController extends Controller
     {
         try {
 
+            $desaId = $this->currentDesaId();
+
             $search = $request->input('query');
 
+            /*
+            |--------------------------------------------------------------------------
+            | Hanya berita milik desa login
+            |--------------------------------------------------------------------------
+            */
             $berita = Berita::with('category')
+                ->where('desa_id', $desaId)
                 ->where(function ($query) use ($search) {
 
                     $query->where(
@@ -96,31 +145,25 @@ class BeritaController extends Controller
                 ->latest()
                 ->get();
 
-
             return response()->json([
-
                 'success' => true,
-
                 'data' => $berita
-
             ]);
+
         } catch (\Exception $e) {
 
             Log::error(
                 '❌ Kesalahan saat pencarian berita:',
                 [
+                    'desa_id' => auth()->user()?->desa_id,
                     'message' => $e->getMessage()
                 ]
             );
 
-
             return response()->json([
-
                 'success' => false,
-
                 'message' =>
-                'Terjadi kesalahan saat pencarian berita!'
-
+                    'Terjadi kesalahan saat pencarian berita!'
             ], 500);
         }
     }
@@ -131,6 +174,8 @@ class BeritaController extends Controller
      */
     public function paginate(Request $request)
     {
+        $desaId = $this->currentDesaId();
+
         $perPage = $request->input(
             'perPage',
             10
@@ -140,10 +185,19 @@ class BeritaController extends Controller
             'search'
         );
 
+        /*
+        |--------------------------------------------------------------------------
+        | Query berdasarkan desa
+        |--------------------------------------------------------------------------
+        */
+        $query = Berita::with('category')
+            ->where('desa_id', $desaId);
 
-        $query = Berita::with('category');
-
-
+        /*
+        |--------------------------------------------------------------------------
+        | Search
+        |--------------------------------------------------------------------------
+        */
         if (!empty($search)) {
 
             $query->where(
@@ -180,11 +234,9 @@ class BeritaController extends Controller
             );
         }
 
-
         $berita = $query
             ->latest()
             ->paginate($perPage);
-
 
         return response()->json(
             $berita
@@ -197,39 +249,47 @@ class BeritaController extends Controller
      */
     public function store(Request $request)
     {
+        $desaId = $this->currentDesaId();
+
         try {
 
             Log::info(
                 '📥 Data masuk ke store() berita:',
-                $request->all()
+                [
+                    'desa_id' => $desaId,
+                    'data' => $request->all()
+                ]
             );
 
-
+            /*
+            |--------------------------------------------------------------------------
+            | Validasi
+            |--------------------------------------------------------------------------
+            */
             $validator = Validator::make(
                 $request->all(),
                 [
 
                     'judul' =>
-                    'required|string|max:255',
+                        'required|string|max:255',
 
                     'category_id' =>
-                    'required|exists:categories,id',
+                        'required|exists:categories,id',
 
                     'deskripsi' =>
-                    'required|string',
+                        'required|string',
 
                     'penulis' =>
-                    'required|string|max:100',
+                        'required|string|max:100',
 
                     'tanggal_publish' =>
-                    'required|date',
+                        'required|date',
 
                     'foto' =>
-                    'nullable|image|mimes:jpeg,png,jpg|max:2048',
+                        'nullable|image|mimes:jpeg,png,jpg|max:2048',
 
                 ]
             );
-
 
             if ($validator->fails()) {
 
@@ -240,24 +300,21 @@ class BeritaController extends Controller
                         ->toArray()
                 );
 
-
                 return response()->json([
 
                     'success' => false,
 
                     'errors' =>
-                    $validator->errors()
+                        $validator->errors()
 
                 ], 422);
             }
 
-
             DB::beginTransaction();
-
 
             /*
             |--------------------------------------------------------------------------
-            | Membuat slug unik
+            | Membuat slug unik berdasarkan desa
             |--------------------------------------------------------------------------
             */
             $slug = Str::slug(
@@ -268,12 +325,16 @@ class BeritaController extends Controller
 
             $counter = 1;
 
-
             while (
                 Berita::where(
-                    'slug',
-                    $slug
-                )->exists()
+                    'desa_id',
+                    $desaId
+                )
+                    ->where(
+                        'slug',
+                        $slug
+                    )
+                    ->exists()
             ) {
 
                 $slug =
@@ -284,13 +345,16 @@ class BeritaController extends Controller
                 $counter++;
             }
 
-
             /*
             |--------------------------------------------------------------------------
             | Membuat data berita
             |--------------------------------------------------------------------------
             */
             $berita = new Berita();
+
+            // desa_id dari akun login
+            $berita->desa_id =
+                $desaId;
 
             $berita->judul =
                 $request->judul;
@@ -309,7 +373,6 @@ class BeritaController extends Controller
 
             $berita->tanggal_publish =
                 $request->tanggal_publish;
-
 
             /*
             |--------------------------------------------------------------------------
@@ -330,16 +393,13 @@ class BeritaController extends Controller
                 $filename =
                     time() .
                     '_' .
-                    $file
-                    ->getClientOriginalName();
-
+                    $file->getClientOriginalName();
 
                 $path =
                     $file->storeAs(
                         'public/foto_berita',
                         $filename
                     );
-
 
                 $berita->foto =
                     str_replace(
@@ -349,48 +409,50 @@ class BeritaController extends Controller
                     );
             }
 
-
             $berita->save();
 
-
             DB::commit();
-
 
             Log::info(
                 '✅ Berita berhasil disimpan:',
                 [
                     'id' =>
-                    $berita->id
+                        $berita->id,
+
+                    'desa_id' =>
+                        $berita->desa_id,
+
+                    'tahun' =>
+                        $berita->tanggal_publish
                 ]
             );
-
 
             return response()->json([
 
                 'success' => true,
 
                 'message' =>
-                'Berita berhasil ditambahkan!',
+                    'Berita berhasil ditambahkan!',
 
                 'data' =>
-                $berita->load(
-                    'category'
-                )
+                    $berita->load(
+                        'category'
+                    )
 
             ], 201);
+
         } catch (\Exception $e) {
 
             DB::rollBack();
 
-
             Log::error(
                 '❌ Kesalahan saat menyimpan berita:',
                 [
+                    'desa_id' => $desaId,
                     'message' =>
-                    $e->getMessage()
+                        $e->getMessage()
                 ]
             );
-
 
             return response()->json([
 
@@ -417,41 +479,82 @@ class BeritaController extends Controller
     public function edit($id)
     {
         try {
-            $berita = Berita::with('category')->findOrFail($id);
+
+            $desaId = $this->currentDesaId();
+
+            /*
+            |--------------------------------------------------------------------------
+            | Hanya boleh mengambil berita dari desa sendiri
+            |--------------------------------------------------------------------------
+            */
+            $berita = Berita::with('category')
+                ->where('desa_id', $desaId)
+                ->findOrFail($id);
 
             $data = [
-                'id' => $berita->id,
-                'judul' => $berita->judul,
-                'slug' => $berita->slug,
-                'category_id' => $berita->category_id,
-                'deskripsi' => $berita->deskripsi,
-                'penulis' => $berita->penulis,
-                'tanggal_publish' => $berita->tanggal_publish
-                    ? $berita->tanggal_publish->format('Y-m-d')
-                    : null,
-                'foto_url' => $berita->foto
-                    ? asset('storage/' . $berita->foto)
-                    : null,
+
+                'id' =>
+                    $berita->id,
+
+                'judul' =>
+                    $berita->judul,
+
+                'slug' =>
+                    $berita->slug,
+
+                'category_id' =>
+                    $berita->category_id,
+
+                'deskripsi' =>
+                    $berita->deskripsi,
+
+                'penulis' =>
+                    $berita->penulis,
+
+                'tanggal_publish' =>
+                    $berita->tanggal_publish
+                        ? $berita->tanggal_publish->format('Y-m-d')
+                        : null,
+
+                'foto_url' =>
+                    $berita->foto
+                        ? asset(
+                            'storage/' .
+                            $berita->foto
+                        )
+                        : null,
             ];
 
             return response()->json([
+
                 'success' => true,
+
                 'data' => $data,
+
             ]);
+
         } catch (\Exception $e) {
 
-            Log::error('❌ Gagal memuat data edit berita:', [
-                'id' => $id,
-                'message' => $e->getMessage(),
-            ]);
+            Log::error(
+                '❌ Gagal memuat data edit berita:',
+                [
+                    'id' => $id,
+                    'desa_id' => auth()->user()?->desa_id,
+                    'message' =>
+                        $e->getMessage(),
+                ]
+            );
 
             return response()->json([
+
                 'success' => false,
-                'message' => 'Gagal memuat data berita.',
+
+                'message' =>
+                    'Gagal memuat data berita.',
+
             ], 500);
         }
     }
-
 
 
     /**
@@ -462,45 +565,53 @@ class BeritaController extends Controller
         $id
     ) {
 
+        $desaId = $this->currentDesaId();
+
         Log::info(
             '📥 Request update berita:',
             [
 
                 'id' =>
-                $id,
+                    $id,
+
+                'desa_id' =>
+                    $desaId,
 
                 'data' =>
-                $request->all()
+                    $request->all()
 
             ]
         );
 
-
+        /*
+        |--------------------------------------------------------------------------
+        | Validasi
+        |--------------------------------------------------------------------------
+        */
         $validator = Validator::make(
             $request->all(),
             [
 
                 'judul' =>
-                'required|string|max:255',
+                    'required|string|max:255',
 
                 'category_id' =>
-                'required|exists:categories,id',
+                    'required|exists:categories,id',
 
                 'deskripsi' =>
-                'required|string',
+                    'required|string',
 
                 'penulis' =>
-                'required|string|max:100',
+                    'required|string|max:100',
 
                 'tanggal_publish' =>
-                'required|date',
+                    'required|date',
 
                 'foto' =>
-                'nullable|image|mimes:jpeg,png,jpg|max:2048',
+                    'nullable|image|mimes:jpeg,png,jpg|max:2048',
 
             ]
         );
-
 
         if (
             $validator->fails()
@@ -513,28 +624,33 @@ class BeritaController extends Controller
                     ->toArray()
             );
 
-
             return response()->json([
 
                 'success' => false,
 
                 'errors' =>
-                $validator->errors()
+                    $validator->errors()
 
             ], 422);
         }
-
 
         try {
 
             DB::beginTransaction();
 
-
+            /*
+            |--------------------------------------------------------------------------
+            | Ambil berita hanya dari desa login
+            |--------------------------------------------------------------------------
+            */
             $berita =
-                Berita::findOrFail(
-                    $id
-                );
-
+                Berita::where(
+                    'desa_id',
+                    $desaId
+                )
+                    ->findOrFail(
+                        $id
+                    );
 
             /*
             |--------------------------------------------------------------------------
@@ -546,28 +662,28 @@ class BeritaController extends Controller
                     $request->judul
                 );
 
-
             $originalSlug =
                 $slug;
 
             $counter =
                 1;
 
-
             while (
 
                 Berita::where(
-                    'slug',
-                    $slug
+                    'desa_id',
+                    $desaId
                 )
-
-                ->where(
-                    'id',
-                    '!=',
-                    $berita->id
-                )
-
-                ->exists()
+                    ->where(
+                        'slug',
+                        $slug
+                    )
+                    ->where(
+                        'id',
+                        '!=',
+                        $berita->id
+                    )
+                    ->exists()
 
             ) {
 
@@ -579,12 +695,14 @@ class BeritaController extends Controller
                 $counter++;
             }
 
-
             /*
             |--------------------------------------------------------------------------
             | Update data berita
             |--------------------------------------------------------------------------
             */
+            $berita->desa_id =
+                $desaId;
+
             $berita->judul =
                 $request->judul;
 
@@ -603,7 +721,6 @@ class BeritaController extends Controller
             $berita->tanggal_publish =
                 $request->tanggal_publish;
 
-
             /*
             |--------------------------------------------------------------------------
             | Update foto
@@ -615,6 +732,11 @@ class BeritaController extends Controller
                 )
             ) {
 
+                /*
+                |--------------------------------------------------------------------------
+                | Hapus foto lama
+                |--------------------------------------------------------------------------
+                */
                 if (
                     $berita->foto
                 ) {
@@ -626,26 +748,21 @@ class BeritaController extends Controller
                     );
                 }
 
-
                 $file =
                     $request->file(
                         'foto'
                     );
 
-
                 $filename =
                     time() .
                     '_' .
-                    $file
-                    ->getClientOriginalName();
-
+                    $file->getClientOriginalName();
 
                 $path =
                     $file->storeAs(
                         'public/foto_berita',
                         $filename
                     );
-
 
                 $berita->foto =
                     str_replace(
@@ -655,48 +772,48 @@ class BeritaController extends Controller
                     );
             }
 
-
             $berita->save();
 
-
             DB::commit();
-
 
             Log::info(
                 '✅ Berita berhasil diperbarui:',
                 [
                     'id' =>
-                    $berita->id
+                        $berita->id,
+
+                    'desa_id' =>
+                        $berita->desa_id
                 ]
             );
-
 
             return response()->json([
 
                 'success' => true,
 
                 'message' =>
-                'Berita berhasil diperbarui!',
+                    'Berita berhasil diperbarui!',
 
                 'data' =>
-                $berita->load(
-                    'category'
-                )
+                    $berita->load(
+                        'category'
+                    )
 
             ]);
+
         } catch (\Exception $e) {
 
             DB::rollBack();
 
-
             Log::error(
                 '❌ Kesalahan saat update berita:',
                 [
+                    'id' => $id,
+                    'desa_id' => $desaId,
                     'message' =>
-                    $e->getMessage()
+                        $e->getMessage()
                 ]
             );
-
 
             return response()->json([
 
@@ -724,14 +841,23 @@ class BeritaController extends Controller
     {
         try {
 
+            $desaId = $this->currentDesaId();
+
             DB::beginTransaction();
 
-
+            /*
+            |--------------------------------------------------------------------------
+            | Hanya boleh menghapus berita dari desa sendiri
+            |--------------------------------------------------------------------------
+            */
             $berita =
-                Berita::find(
-                    $id
-                );
-
+                Berita::where(
+                    'desa_id',
+                    $desaId
+                )
+                    ->find(
+                        $id
+                    );
 
             if (
                 !$berita
@@ -740,14 +866,13 @@ class BeritaController extends Controller
                 return response()->json([
 
                     'success' =>
-                    false,
+                        false,
 
                     'message' =>
-                    'Data berita tidak ditemukan!'
+                        'Data berita tidak ditemukan!'
 
                 ], 404);
             }
-
 
             /*
             |--------------------------------------------------------------------------
@@ -765,52 +890,51 @@ class BeritaController extends Controller
                 );
             }
 
-
             $berita->delete();
 
-
             DB::commit();
-
 
             Log::info(
                 '✅ Berita berhasil dihapus:',
                 [
                     'id' =>
-                    $id
+                        $id,
+
+                    'desa_id' =>
+                        $desaId
                 ]
             );
-
 
             return response()->json([
 
                 'success' =>
-                true,
+                    true,
 
                 'message' =>
-                'Berita berhasil dihapus.'
+                    'Berita berhasil dihapus.'
 
             ]);
+
         } catch (\Exception $e) {
 
             DB::rollBack();
 
-
             Log::error(
                 '❌ Kesalahan saat menghapus berita:',
                 [
+                    'id' => $id,
+                    'desa_id' => auth()->user()?->desa_id,
                     'message' =>
-                    $e->getMessage()
+                        $e->getMessage()
                 ]
             );
 
-
             return response()->json([
 
-                'success' =>
-                false,
+                'success' => false,
 
                 'message' =>
-                'Terjadi kesalahan saat menghapus berita!'
+                    'Terjadi kesalahan saat menghapus berita!'
 
             ], 500);
         }

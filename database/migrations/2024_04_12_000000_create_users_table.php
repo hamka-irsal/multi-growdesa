@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('desa_id')->nullable()->constrained('desa')->nullOnDelete();
             $table->string('name');
             $table->string('email')->unique();
             $table->string('nik', 16)->unique()->nullable(); // Tambahan field NIK
@@ -25,7 +26,7 @@ return new class extends Migration
             ])->default('pending');
 
             // 🔽 Tambahan field role
-            $table->enum('role', ['admin', 'aparat', 'penduduk'])->default('penduduk');
+            $table->enum('role', ['superadmin', 'admindesa', 'aparat', 'penduduk'])->default('penduduk');
 
             $table->rememberToken();
             $table->timestamps();

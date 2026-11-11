@@ -10,6 +10,7 @@ class Produk extends Model
     protected $table = 'produk';
 
     protected $fillable = [
+        'desa_id',
         'nama_produk',
         'slug',
         'deskripsi',
@@ -20,6 +21,11 @@ class Produk extends Model
         'asal_desa',
         'kontak',
     ];
+
+    public function desa()
+    {
+        return $this->belongsTo(Desa::class);
+    }
 
     public static function boot()
     {

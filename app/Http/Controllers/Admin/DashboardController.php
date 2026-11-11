@@ -8,28 +8,63 @@ use App\Models\Dusun;
 use App\Models\Penduduk;
 use App\Models\Produk;
 use App\Models\Surat;
-use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
+    /**
+     * Mengambil desa_id dari akun yang sedang login.
+     */
+    private function currentDesaId(): int
+    {
+        $desaId = auth()->user()?->desa_id;
+
+        abort_unless(
+            $desaId,
+            403,
+            'Akun tidak terhubung dengan desa.'
+        );
+
+        return (int) $desaId;
+    }
+
+
     public function index()
     {
         // ==================================================
-        // 1. JUMLAH PENDUDUK
-        // Hanya penduduk yang akun user-nya sudah disetujui
+        // DESA YANG SEDANG LOGIN
         // ==================================================
 
-        $jumlahPenduduk = Penduduk::whereHas('user', function ($query) {
-            $query->where('status_verifikasi', 'disetujui');
-        })->count();
+        $desaId = $this->currentDesaId();
+
+
+        // ==================================================
+        // 1. JUMLAH PENDUDUK
+        // Hanya penduduk dari desa yang sedang login
+        // dan akun user-nya sudah disetujui
+        // ==================================================
+
+        $jumlahPenduduk = Penduduk::where(
+            'desa_id',
+            $desaId
+        )
+            ->whereHas('user', function ($query) {
+                $query->where(
+                    'status_verifikasi',
+                    'disetujui'
+                );
+            })
+            ->count();
 
 
         // ==================================================
         // 2. JUMLAH SURAT
-        // Semua status surat
+        // Hanya surat dari desa yang sedang login
         // ==================================================
 
-        $jumlahSurat = Surat::count();
+        $jumlahSurat = Surat::where(
+            'desa_id',
+            $desaId
+        )->count();
 
 
         // ==================================================
@@ -37,9 +72,14 @@ class DashboardController extends Controller
         // ==================================================
 
         $suratSelesai = Surat::where(
-            'status_surat',
-            'selesai'
-        )->count();
+            'desa_id',
+            $desaId
+        )
+            ->where(
+                'status_surat',
+                'selesai'
+            )
+            ->count();
 
 
         // ==================================================
@@ -47,9 +87,14 @@ class DashboardController extends Controller
         // ==================================================
 
         $suratDiproses = Surat::where(
-            'status_surat',
-            'proses'
-        )->count();
+            'desa_id',
+            $desaId
+        )
+            ->where(
+                'status_surat',
+                'proses'
+            )
+            ->count();
 
 
         // ==================================================
@@ -57,31 +102,47 @@ class DashboardController extends Controller
         // ==================================================
 
         $suratDitolak = Surat::where(
-            'status_surat',
-            'tolak'
-        )->count();
+            'desa_id',
+            $desaId
+        )
+            ->where(
+                'status_surat',
+                'tolak'
+            )
+            ->count();
 
 
         // ==================================================
         // 6. JUMLAH PRODUK
+        // Hanya produk dari desa yang sedang login
         // ==================================================
 
-        $jumlahProduk = Produk::count();
+        $jumlahProduk = Produk::where(
+            'desa_id',
+            $desaId
+        )->count();
 
 
         // ==================================================
         // 7. JUMLAH APARAT
+        // Hanya aparat dari desa yang sedang login
         // ==================================================
 
-        $jumlahAparat = Aparat::count();
+        $jumlahAparat = Aparat::where(
+            'desa_id',
+            $desaId
+        )->count();
 
 
         // ==================================================
         // 8. JUMLAH DUSUN
-        // Dihitung langsung dari tabel dusun
+        // Hanya dusun dari desa yang sedang login
         // ==================================================
 
-        $jumlah_dusun = Dusun::count();
+        $jumlah_dusun = Dusun::where(
+            'desa_id',
+            $desaId
+        )->count();
 
 
         // ==================================================

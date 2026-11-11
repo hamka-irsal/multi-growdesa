@@ -10,6 +10,7 @@ return new class extends Migration
     {
         Schema::create('surat_tidak_mampu', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('desa_id')->nullable()->constrained('desa')->nullOnDelete();
             $table->foreignId('penduduk_id')->constrained('penduduk')->onDelete('cascade');
             $table->foreignId('surat_id')->nullable()->constrained('surat')->onDelete('cascade');
             $table->timestamps();

@@ -9,6 +9,7 @@ return new class extends Migration {
     {
         Schema::create('penduduk', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('desa_id')->nullable()->constrained('desa')->nullOnDelete();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('nik', 16)->unique()->nullable();
             $table->string('nama_lengkap');
@@ -24,11 +25,6 @@ return new class extends Migration {
             $table->date('tanggal_perkawinan')->nullable();
             $table->string('foto')->nullable();
             $table->text('alamat');
-            $table->string('desa_kelurahan');
-            $table->string('kecamatan');
-            $table->string('dusun')->nullable();
-            $table->string('kabupaten_kota');
-            $table->string('provinsi');
             $table->string('kewarganegaraan');
             $table->string('ayah');
             $table->string('ibu');

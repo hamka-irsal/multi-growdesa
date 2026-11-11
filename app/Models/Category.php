@@ -16,18 +16,10 @@ class Category extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'slug'
+        'desa_id',
+        'name',
+        'slug'
     ];
-
-    /**
-     * posts
-     *
-     * @return HasMany
-     */
-    public function posts(): HasMany
-    {
-        return $this->hasMany(Post::class);
-    }
 
     /**
      * beritas
@@ -37,5 +29,10 @@ class Category extends Model
     public function beritas(): HasMany
     {
         return $this->hasMany(Berita::class);
+    }
+
+    public function desa()
+    {
+        return $this->belongsTo(Desa::class);
     }
 }

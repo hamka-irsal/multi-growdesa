@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('notifications_hidden', function (Blueprint $table) {
             $table->id();
-
+            $table->foreignId('desa_id')->nullable()->constrained('desa')->nullOnDelete();
             $table->foreignId('user_id')
                 ->constrained('users')
                 ->cascadeOnDelete();

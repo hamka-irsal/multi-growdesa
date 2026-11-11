@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 
 @section('page-title', 'Data-Penduduk Admin')
 
@@ -207,70 +207,195 @@
     {{-- Modal Tambah Penduduk --}}
     <div class="modal fade" id="modalTambahPenduduk" tabindex="-1" role="dialog"
         aria-labelledby="modalTambahPendudukLabel" aria-hidden="true">
+
         <div class="modal-dialog modal-lg" role="document">
+
             <div class="modal-content"
                 style="border:none; border-radius:16px; overflow:hidden; box-shadow:0 10px 40px rgba(0,0,0,0.15);">
 
+                {{-- HEADER --}}
                 <div class="modal-header" style="background:#2E7D32; padding:22px 28px; border:none;">
+
                     <h5 class="modal-title" id="modalTambahPendudukLabel"
                         style="font-size:22px; font-weight:700; color:#fff; display:flex; align-items:center; gap:10px; margin:0;">
-                        <i class="fas fa-user-plus"></i> Tambah Penduduk
+
+                        <i class="fas fa-user-plus"></i>
+                        Tambah Penduduk
+
                     </h5>
+
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"
                         style="color:#fff; opacity:0.9; font-size:26px; text-shadow:none;">
+
                         <span aria-hidden="true">&times;</span>
+
                     </button>
+
                 </div>
 
+
+                {{-- BODY --}}
                 <div class="modal-body" style="padding:28px; background:#F8FAFC;">
+
                     <form enctype="multipart/form-data" id="formPenduduk">
+
                         @csrf
+
                         <div class="row">
+
+                            {{-- ================================================= --}}
+                            {{-- KOLOM KIRI --}}
+                            {{-- ================================================= --}}
                             <div class="col-md-6">
 
+                                {{-- IDENTITAS --}}
                                 <div
-                                    style="font-size:13.5px; font-weight:800; text-transform:uppercase; letter-spacing:0.06em; color:#2E7D32; margin:4px 0 16px; padding-bottom:10px; border-bottom:2px solid #DCFCE7;">
+                                    style="
+                                font-size:13.5px;
+                                font-weight:800;
+                                text-transform:uppercase;
+                                letter-spacing:0.06em;
+                                color:#2E7D32;
+                                margin:4px 0 16px;
+                                padding-bottom:10px;
+                                border-bottom:2px solid #DCFCE7;
+                            ">
                                     Identitas
                                 </div>
 
+
+                                {{-- NIK --}}
                                 <div class="form-group" style="margin-bottom:18px;">
+
                                     <label
-                                        style="font-size:15px; font-weight:600; color:#334155; display:block; margin-bottom:8px;">NIK</label>
+                                        style="
+                                    font-size:15px;
+                                    font-weight:600;
+                                    color:#334155;
+                                    display:block;
+                                    margin-bottom:8px;
+                                ">
+                                        NIK
+                                    </label>
+
                                     <input type="text" id="nik" name="nik" pattern="\d{16}" maxlength="16"
                                         required
-                                        style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:46px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
+                                        style="
+                                        width:100%;
+                                        padding:12px 14px;
+                                        font-size:15px;
+                                        color:#1E293B;
+                                        height:46px;
+                                        border:1.5px solid #E2E8F0;
+                                        border-radius:10px;
+                                        background:#fff;
+                                        outline:none;
+                                    "
                                         onfocus="this.style.borderColor='#2E7D32'"
                                         onblur="this.style.borderColor='#E2E8F0'">
+
                                 </div>
+
+
+                                {{-- NAMA LENGKAP --}}
                                 <div class="form-group" style="margin-bottom:18px;">
+
                                     <label
-                                        style="font-size:15px; font-weight:600; color:#334155; display:block; margin-bottom:8px;">Nama
-                                        Lengkap</label>
+                                        style="
+                                    font-size:15px;
+                                    font-weight:600;
+                                    color:#334155;
+                                    display:block;
+                                    margin-bottom:8px;
+                                ">
+                                        Nama Lengkap
+                                    </label>
+
                                     <input type="text" id="nama_lengkap" name="nama_lengkap" required
-                                        style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:46px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
+                                        style="
+                                        width:100%;
+                                        padding:12px 14px;
+                                        font-size:15px;
+                                        color:#1E293B;
+                                        height:46px;
+                                        border:1.5px solid #E2E8F0;
+                                        border-radius:10px;
+                                        background:#fff;
+                                        outline:none;
+                                    "
                                         onfocus="this.style.borderColor='#2E7D32'"
                                         onblur="this.style.borderColor='#E2E8F0'">
+
                                 </div>
+
+
+                                {{-- JENIS KELAMIN --}}
                                 <div class="form-group" style="margin-bottom:18px;">
+
                                     <label
-                                        style="font-size:15px; font-weight:600; color:#334155; display:block; margin-bottom:8px;">Jenis
-                                        Kelamin</label>
+                                        style="
+                                    font-size:15px;
+                                    font-weight:600;
+                                    color:#334155;
+                                    display:block;
+                                    margin-bottom:8px;
+                                ">
+                                        Jenis Kelamin
+                                    </label>
+
                                     <select id="jenis_kelamin" name="jenis_kelamin" required
-                                        style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:46px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
+                                        style="
+                                        width:100%;
+                                        padding:12px 14px;
+                                        font-size:15px;
+                                        color:#1E293B;
+                                        height:46px;
+                                        border:1.5px solid #E2E8F0;
+                                        border-radius:10px;
+                                        background:#fff;
+                                        outline:none;
+                                    "
                                         onfocus="this.style.borderColor='#2E7D32'"
                                         onblur="this.style.borderColor='#E2E8F0'">
+
                                         <option value="">Pilih Jenis Kelamin</option>
                                         <option value="Laki-laki">Laki-laki</option>
                                         <option value="Perempuan">Perempuan</option>
+
                                     </select>
+
                                 </div>
+
+
+                                {{-- PENDIDIKAN --}}
                                 <div class="form-group" style="margin-bottom:18px;">
+
                                     <label
-                                        style="font-size:15px; font-weight:600; color:#334155; display:block; margin-bottom:8px;">Pendidikan</label>
+                                        style="
+                                    font-size:15px;
+                                    font-weight:600;
+                                    color:#334155;
+                                    display:block;
+                                    margin-bottom:8px;
+                                ">
+                                        Pendidikan
+                                    </label>
+
                                     <select id="pendidikan" name="pendidikan" required
-                                        style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:46px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
+                                        style="
+                                        width:100%;
+                                        padding:12px 14px;
+                                        font-size:15px;
+                                        color:#1E293B;
+                                        height:46px;
+                                        border:1.5px solid #E2E8F0;
+                                        border-radius:10px;
+                                        background:#fff;
+                                        outline:none;
+                                    "
                                         onfocus="this.style.borderColor='#2E7D32'"
                                         onblur="this.style.borderColor='#E2E8F0'">
+
                                         <option value="">Pilih Pendidikan</option>
                                         <option value="SD">SD</option>
                                         <option value="SMP">SMP</option>
@@ -278,58 +403,201 @@
                                         <option value="Strata 1">Strata 1</option>
                                         <option value="Strata 2">Strata 2</option>
                                         <option value="Strata 3">Strata 3</option>
+
                                     </select>
+
                                 </div>
+
+
+                                {{-- TEMPAT LAHIR --}}
                                 <div class="form-group" style="margin-bottom:18px;">
+
                                     <label
-                                        style="font-size:15px; font-weight:600; color:#334155; display:block; margin-bottom:8px;">Tempat
-                                        Lahir</label>
+                                        style="
+                                    font-size:15px;
+                                    font-weight:600;
+                                    color:#334155;
+                                    display:block;
+                                    margin-bottom:8px;
+                                ">
+                                        Tempat Lahir
+                                    </label>
+
                                     <input type="text" id="tempat_lahir" name="tempat_lahir" required
-                                        style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:46px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
+                                        style="
+                                        width:100%;
+                                        padding:12px 14px;
+                                        font-size:15px;
+                                        color:#1E293B;
+                                        height:46px;
+                                        border:1.5px solid #E2E8F0;
+                                        border-radius:10px;
+                                        background:#fff;
+                                        outline:none;
+                                    "
                                         onfocus="this.style.borderColor='#2E7D32'"
                                         onblur="this.style.borderColor='#E2E8F0'">
+
                                 </div>
+
+
+                                {{-- TANGGAL LAHIR --}}
                                 <div class="form-group" style="margin-bottom:18px;">
+
                                     <label
-                                        style="font-size:15px; font-weight:600; color:#334155; display:block; margin-bottom:8px;">Tanggal
-                                        Lahir</label>
+                                        style="
+                                    font-size:15px;
+                                    font-weight:600;
+                                    color:#334155;
+                                    display:block;
+                                    margin-bottom:8px;
+                                ">
+                                        Tanggal Lahir
+                                    </label>
+
                                     <input type="date" id="tanggal_lahir" name="tanggal_lahir" required
-                                        style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:46px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
+                                        style="
+                                        width:100%;
+                                        padding:12px 14px;
+                                        font-size:15px;
+                                        color:#1E293B;
+                                        height:46px;
+                                        border:1.5px solid #E2E8F0;
+                                        border-radius:10px;
+                                        background:#fff;
+                                        outline:none;
+                                    "
                                         onfocus="this.style.borderColor='#2E7D32'"
                                         onblur="this.style.borderColor='#E2E8F0'">
+
                                 </div>
+
+
+                                {{-- GOLONGAN DARAH --}}
                                 <div class="form-group" style="margin-bottom:18px;">
+
                                     <label
-                                        style="font-size:15px; font-weight:600; color:#334155; display:block; margin-bottom:8px;">Golongan
-                                        Darah (Opsional)</label>
+                                        style="
+                                    font-size:15px;
+                                    font-weight:600;
+                                    color:#334155;
+                                    display:block;
+                                    margin-bottom:8px;
+                                ">
+                                        Golongan Darah (Opsional)
+                                    </label>
+
                                     <select id="golongan_darah" name="golongan_darah"
-                                        style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:46px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
+                                        style="
+                                        width:100%;
+                                        padding:12px 14px;
+                                        font-size:15px;
+                                        color:#1E293B;
+                                        height:46px;
+                                        border:1.5px solid #E2E8F0;
+                                        border-radius:10px;
+                                        background:#fff;
+                                        outline:none;
+                                    "
                                         onfocus="this.style.borderColor='#2E7D32'"
                                         onblur="this.style.borderColor='#E2E8F0'">
+
                                         <option value="">Pilih Golongan Darah</option>
                                         <option value="A">A</option>
                                         <option value="B">B</option>
                                         <option value="AB">AB</option>
                                         <option value="O">O</option>
                                         <option value="Tidak Tahu">Tidak Tahu</option>
+
                                     </select>
+
                                 </div>
+
+
+                                {{-- JENIS PEKERJAAN --}}
                                 <div class="form-group" style="margin-bottom:18px;">
+
                                     <label
-                                        style="font-size:15px; font-weight:600; color:#334155; display:block; margin-bottom:8px;">Jenis
-                                        Pekerjaan</label>
+                                        style="
+                                    font-size:15px;
+                                    font-weight:600;
+                                    color:#334155;
+                                    display:block;
+                                    margin-bottom:8px;
+                                ">
+                                        Jenis Pekerjaan
+                                    </label>
+
                                     <input type="text" id="jenis_pekerjaan" name="jenis_pekerjaan" required
-                                        style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:46px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
+                                        style="
+                                        width:100%;
+                                        padding:12px 14px;
+                                        font-size:15px;
+                                        color:#1E293B;
+                                        height:46px;
+                                        border:1.5px solid #E2E8F0;
+                                        border-radius:10px;
+                                        background:#fff;
+                                        outline:none;
+                                    "
                                         onfocus="this.style.borderColor='#2E7D32'"
                                         onblur="this.style.borderColor='#E2E8F0'">
+
                                 </div>
+
+                            </div>
+
+
+                            {{-- ================================================= --}}
+                            {{-- KOLOM KANAN --}}
+                            {{-- ================================================= --}}
+                            <div class="col-md-6">
+
+                                {{-- DATA KELUARGA --}}
+                                <div
+                                    style="
+                                font-size:13.5px;
+                                font-weight:800;
+                                text-transform:uppercase;
+                                letter-spacing:0.06em;
+                                color:#2E7D32;
+                                margin:4px 0 16px;
+                                padding-bottom:10px;
+                                border-bottom:2px solid #DCFCE7;
+                            ">
+                                    Data Keluarga
+                                </div>
+
+
+                                {{-- AGAMA --}}
                                 <div class="form-group" style="margin-bottom:18px;">
+
                                     <label
-                                        style="font-size:15px; font-weight:600; color:#334155; display:block; margin-bottom:8px;">Agama</label>
+                                        style="
+                                    font-size:15px;
+                                    font-weight:600;
+                                    color:#334155;
+                                    display:block;
+                                    margin-bottom:8px;
+                                ">
+                                        Agama
+                                    </label>
+
                                     <select id="agama" name="agama" required
-                                        style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:46px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
+                                        style="
+                                        width:100%;
+                                        padding:12px 14px;
+                                        font-size:15px;
+                                        color:#1E293B;
+                                        height:46px;
+                                        border:1.5px solid #E2E8F0;
+                                        border-radius:10px;
+                                        background:#fff;
+                                        outline:none;
+                                    "
                                         onfocus="this.style.borderColor='#2E7D32'"
                                         onblur="this.style.borderColor='#E2E8F0'">
+
                                         <option value="">Pilih Agama</option>
                                         <option value="Islam">Islam</option>
                                         <option value="Kristen Protestan">Kristen Protestan</option>
@@ -337,65 +605,80 @@
                                         <option value="Hindu">Hindu</option>
                                         <option value="Buddha">Buddha</option>
                                         <option value="Konghucu">Konghucu</option>
+
                                     </select>
+
                                 </div>
+
+
+                                {{-- STATUS PERKAWINAN --}}
                                 <div class="form-group" style="margin-bottom:18px;">
+
                                     <label
-                                        style="font-size:15px; font-weight:600; color:#334155; display:block; margin-bottom:8px;">Status
-                                        Perkawinan</label>
+                                        style="
+                                    font-size:15px;
+                                    font-weight:600;
+                                    color:#334155;
+                                    display:block;
+                                    margin-bottom:8px;
+                                ">
+                                        Status Perkawinan
+                                    </label>
+
                                     <select id="status_perkawinan" name="status_perkawinan" required
-                                        style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:46px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
+                                        style="
+                                        width:100%;
+                                        padding:12px 14px;
+                                        font-size:15px;
+                                        color:#1E293B;
+                                        height:46px;
+                                        border:1.5px solid #E2E8F0;
+                                        border-radius:10px;
+                                        background:#fff;
+                                        outline:none;
+                                    "
                                         onfocus="this.style.borderColor='#2E7D32'"
                                         onblur="this.style.borderColor='#E2E8F0'">
+
                                         <option value="">Pilih Status Perkawinan</option>
                                         <option value="Kawin">Kawin</option>
                                         <option value="Belum Kawin">Belum Kawin</option>
+
                                     </select>
+
                                 </div>
 
-                                <div
-                                    style="font-size:13.5px; font-weight:800; text-transform:uppercase; letter-spacing:0.06em; color:#2E7D32; margin:26px 0 16px; padding-bottom:10px; border-bottom:2px solid #DCFCE7;">
-                                    Data Keluarga
-                                </div>
 
-                                <div class="form-row">
-                                    <div class="form-group col-md-6" style="margin-bottom:18px;">
-                                        <label
-                                            style="font-size:15px; font-weight:600; color:#334155; display:block; margin-bottom:8px;">Nama
-                                            Ibu</label>
-                                        <input type="text" id="ibu" name="ibu" required
-                                            style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:46px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
-                                            onfocus="this.style.borderColor='#2E7D32'"
-                                            onblur="this.style.borderColor='#E2E8F0'">
-                                    </div>
-                                    <div class="form-group col-md-6" style="margin-bottom:18px;">
-                                        <label
-                                            style="font-size:15px; font-weight:600; color:#334155; display:block; margin-bottom:8px;">Nama
-                                            Ayah</label>
-                                        <input type="text" id="ayah" name="ayah" required
-                                            style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:46px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
-                                            onfocus="this.style.borderColor='#2E7D32'"
-                                            onblur="this.style.borderColor='#E2E8F0'">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-
-                                <div
-                                    style="font-size:13.5px; font-weight:800; text-transform:uppercase; letter-spacing:0.06em; color:#2E7D32; margin:4px 0 16px; padding-bottom:10px; border-bottom:2px solid #DCFCE7;">
-                                    Status &amp; Foto
-                                </div>
-
+                                {{-- STATUS HUBUNGAN --}}
                                 <div class="form-group" style="margin-bottom:18px;">
+
                                     <label
-                                        style="font-size:15px; font-weight:600; color:#334155; display:block; margin-bottom:8px;">Status
-                                        Hubungan Keluarga</label>
+                                        style="
+                                    font-size:15px;
+                                    font-weight:600;
+                                    color:#334155;
+                                    display:block;
+                                    margin-bottom:8px;
+                                ">
+                                        Status Hubungan Keluarga
+                                    </label>
+
                                     <select id="status_hubungan_dalam_keluarga" name="status_hubungan_dalam_keluarga"
                                         required
-                                        style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:46px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
+                                        style="
+                                        width:100%;
+                                        padding:12px 14px;
+                                        font-size:15px;
+                                        color:#1E293B;
+                                        height:46px;
+                                        border:1.5px solid #E2E8F0;
+                                        border-radius:10px;
+                                        background:#fff;
+                                        outline:none;
+                                    "
                                         onfocus="this.style.borderColor='#2E7D32'"
                                         onblur="this.style.borderColor='#E2E8F0'">
+
                                         <option value="">Pilih Status Hubungan</option>
                                         <option value="Kepala Keluarga">Kepala Keluarga</option>
                                         <option value="Suami">Suami</option>
@@ -405,310 +688,783 @@
                                         <option value="Mertua">Mertua</option>
                                         <option value="Cucu">Cucu</option>
                                         <option value="Lainnya">Lainnya</option>
+
                                     </select>
-                                </div>
-                                <div class="form-group" style="margin-bottom:18px;">
-                                    <label
-                                        style="font-size:15px; font-weight:600; color:#334155; display:block; margin-bottom:8px;">Tanggal
-                                        Perkawinan (Opsional)</label>
-                                    <input type="date" id="tanggal_perkawinan" name="tanggal_perkawinan"
-                                        style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:46px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
-                                        onfocus="this.style.borderColor='#2E7D32'"
-                                        onblur="this.style.borderColor='#E2E8F0'">
-                                </div>
-                                <div class="form-group" style="margin-bottom:18px;">
-                                    <label
-                                        style="font-size:15px; font-weight:600; color:#334155; display:block; margin-bottom:8px;">Foto
-                                        (Opsional)</label>
-                                    <input type="file" id="foto" name="foto"
-                                        accept="image/jpeg,image/png,image/jpg,image/gif"
-                                        style="width:100%; padding:9px 14px; font-size:15px; color:#1E293B; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
-                                        onfocus="this.style.borderColor='#2E7D32'"
-                                        onblur="this.style.borderColor='#E2E8F0'">
+
                                 </div>
 
+
+                                {{-- TANGGAL PERKAWINAN --}}
+                                <div class="form-group" style="margin-bottom:18px;">
+
+                                    <label
+                                        style="
+                                    font-size:15px;
+                                    font-weight:600;
+                                    color:#334155;
+                                    display:block;
+                                    margin-bottom:8px;
+                                ">
+                                        Tanggal Perkawinan (Opsional)
+                                    </label>
+
+                                    <input type="date" id="tanggal_perkawinan" name="tanggal_perkawinan"
+                                        style="
+                                        width:100%;
+                                        padding:12px 14px;
+                                        font-size:15px;
+                                        color:#1E293B;
+                                        height:46px;
+                                        border:1.5px solid #E2E8F0;
+                                        border-radius:10px;
+                                        background:#fff;
+                                        outline:none;
+                                    "
+                                        onfocus="this.style.borderColor='#2E7D32'"
+                                        onblur="this.style.borderColor='#E2E8F0'">
+
+                                </div>
+
+
+                                {{-- IBU & AYAH --}}
+                                <div class="form-row">
+
+                                    {{-- IBU --}}
+                                    <div class="form-group col-md-6" style="margin-bottom:18px;">
+
+                                        <label
+                                            style="
+                                        font-size:15px;
+                                        font-weight:600;
+                                        color:#334155;
+                                        display:block;
+                                        margin-bottom:8px;
+                                    ">
+                                            Nama Ibu
+                                        </label>
+
+                                        <input type="text" id="ibu" name="ibu" required
+                                            style="
+                                            width:100%;
+                                            padding:12px 14px;
+                                            font-size:15px;
+                                            color:#1E293B;
+                                            height:46px;
+                                            border:1.5px solid #E2E8F0;
+                                            border-radius:10px;
+                                            background:#fff;
+                                            outline:none;
+                                        "
+                                            onfocus="this.style.borderColor='#2E7D32'"
+                                            onblur="this.style.borderColor='#E2E8F0'">
+
+                                    </div>
+
+
+                                    {{-- AYAH --}}
+                                    <div class="form-group col-md-6" style="margin-bottom:18px;">
+
+                                        <label
+                                            style="
+                                        font-size:15px;
+                                        font-weight:600;
+                                        color:#334155;
+                                        display:block;
+                                        margin-bottom:8px;
+                                    ">
+                                            Nama Ayah
+                                        </label>
+
+                                        <input type="text" id="ayah" name="ayah" required
+                                            style="
+                                            width:100%;
+                                            padding:12px 14px;
+                                            font-size:15px;
+                                            color:#1E293B;
+                                            height:46px;
+                                            border:1.5px solid #E2E8F0;
+                                            border-radius:10px;
+                                            background:#fff;
+                                            outline:none;
+                                        "
+                                            onfocus="this.style.borderColor='#2E7D32'"
+                                            onblur="this.style.borderColor='#E2E8F0'">
+
+                                    </div>
+
+                                </div>
+
+
+                                {{-- ALAMAT --}}
                                 <div
-                                    style="font-size:13.5px; font-weight:800; text-transform:uppercase; letter-spacing:0.06em; color:#2E7D32; margin:26px 0 16px; padding-bottom:10px; border-bottom:2px solid #DCFCE7;">
+                                    style="
+                                font-size:13.5px;
+                                font-weight:800;
+                                text-transform:uppercase;
+                                letter-spacing:0.06em;
+                                color:#2E7D32;
+                                margin:8px 0 16px;
+                                padding-bottom:10px;
+                                border-bottom:2px solid #DCFCE7;
+                            ">
                                     Alamat
                                 </div>
 
+
+                                {{-- ALAMAT --}}
                                 <div class="form-group" style="margin-bottom:18px;">
+
                                     <label
-                                        style="font-size:15px; font-weight:600; color:#334155; display:block; margin-bottom:8px;">Alamat</label>
-                                    <input type="text" id="alamat" name="alamat" required
-                                        style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:46px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
-                                        onfocus="this.style.borderColor='#2E7D32'"
-                                        onblur="this.style.borderColor='#E2E8F0'">
+                                        style="
+                                    font-size:15px;
+                                    font-weight:600;
+                                    color:#334155;
+                                    display:block;
+                                    margin-bottom:8px;
+                                ">
+                                        Alamat
+                                    </label>
+
+                                    <textarea id="alamat" name="alamat" required rows="3"
+                                        style="
+                                        width:100%;
+                                        padding:12px 14px;
+                                        font-size:15px;
+                                        color:#1E293B;
+                                        border:1.5px solid #E2E8F0;
+                                        border-radius:10px;
+                                        background:#fff;
+                                        outline:none;
+                                        resize:none;
+                                    "
+                                        onfocus="this.style.borderColor='#2E7D32'" onblur="this.style.borderColor='#E2E8F0'"></textarea>
+
                                 </div>
+
+
+                                {{-- KEWARGANEGARAAN --}}
                                 <div class="form-group" style="margin-bottom:18px;">
+
                                     <label
-                                        style="font-size:15px; font-weight:600; color:#334155; display:block; margin-bottom:8px;">Dusun
-                                        (Opsional)</label>
-                                    <input type="text" id="dusun" name="dusun"
-                                        style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:46px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
-                                        onfocus="this.style.borderColor='#2E7D32'"
-                                        onblur="this.style.borderColor='#E2E8F0'">
-                                </div>
-                                <div class="form-group" style="margin-bottom:18px;">
-                                    <label
-                                        style="font-size:15px; font-weight:600; color:#334155; display:block; margin-bottom:8px;">Desa/Kelurahan</label>
-                                    <input type="text" id="desa_kelurahan" name="desa_kelurahan" required
-                                        style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:46px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
-                                        onfocus="this.style.borderColor='#2E7D32'"
-                                        onblur="this.style.borderColor='#E2E8F0'">
-                                </div>
-                                <div class="form-group" style="margin-bottom:18px;">
-                                    <label
-                                        style="font-size:15px; font-weight:600; color:#334155; display:block; margin-bottom:8px;">Kecamatan</label>
-                                    <input type="text" id="kecamatan" name="kecamatan" required
-                                        style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:46px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
-                                        onfocus="this.style.borderColor='#2E7D32'"
-                                        onblur="this.style.borderColor='#E2E8F0'">
-                                </div>
-                                <div class="form-group" style="margin-bottom:18px;">
-                                    <label
-                                        style="font-size:15px; font-weight:600; color:#334155; display:block; margin-bottom:8px;">Kabupaten/Kota</label>
-                                    <input type="text" id="kabupaten_kota" name="kabupaten_kota" required
-                                        style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:46px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
-                                        onfocus="this.style.borderColor='#2E7D32'"
-                                        onblur="this.style.borderColor='#E2E8F0'">
-                                </div>
-                                <div class="form-group" style="margin-bottom:18px;">
-                                    <label
-                                        style="font-size:15px; font-weight:600; color:#334155; display:block; margin-bottom:8px;">Provinsi</label>
-                                    <input type="text" id="provinsi" name="provinsi" required
-                                        style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:46px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
-                                        onfocus="this.style.borderColor='#2E7D32'"
-                                        onblur="this.style.borderColor='#E2E8F0'">
-                                </div>
-                                <div class="form-group" style="margin-bottom:18px;">
-                                    <label
-                                        style="font-size:15px; font-weight:600; color:#334155; display:block; margin-bottom:8px;">Kewarganegaraan</label>
+                                        style="
+                                    font-size:15px;
+                                    font-weight:600;
+                                    color:#334155;
+                                    display:block;
+                                    margin-bottom:8px;
+                                ">
+                                        Kewarganegaraan
+                                    </label>
+
                                     <select id="kewarganegaraan" name="kewarganegaraan" required
-                                        style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:46px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
+                                        style="
+                                        width:100%;
+                                        padding:12px 14px;
+                                        font-size:15px;
+                                        color:#1E293B;
+                                        height:46px;
+                                        border:1.5px solid #E2E8F0;
+                                        border-radius:10px;
+                                        background:#fff;
+                                        outline:none;
+                                    "
                                         onfocus="this.style.borderColor='#2E7D32'"
                                         onblur="this.style.borderColor='#E2E8F0'">
+
                                         <option value="">Pilih Kewarganegaraan</option>
                                         <option value="WNI">WNI</option>
                                         <option value="WNA">WNA</option>
+
                                     </select>
+
                                 </div>
+
+
+                                {{-- FOTO --}}
+                                <div class="form-group" style="margin-bottom:18px;">
+
+                                    <label
+                                        style="
+                                    font-size:15px;
+                                    font-weight:600;
+                                    color:#334155;
+                                    display:block;
+                                    margin-bottom:8px;
+                                ">
+                                        Foto (Opsional)
+                                    </label>
+
+                                    <input type="file" id="foto" name="foto"
+                                        accept="image/jpeg,image/png,image/jpg,image/gif"
+                                        style="
+                                        width:100%;
+                                        padding:9px 14px;
+                                        font-size:15px;
+                                        color:#1E293B;
+                                        border:1.5px solid #E2E8F0;
+                                        border-radius:10px;
+                                        background:#fff;
+                                        outline:none;
+                                    "
+                                        onfocus="this.style.borderColor='#2E7D32'"
+                                        onblur="this.style.borderColor='#E2E8F0'">
+
+                                </div>
+
                             </div>
+
                         </div>
 
+
+                        {{-- FOOTER --}}
                         <div class="modal-footer"
-                            style="background:#fff; border-top:1.5px solid #F1F5F9; padding:18px 0 0; margin-top:10px; gap:10px;">
+                            style="
+                            background:#fff;
+                            border-top:1.5px solid #F1F5F9;
+                            padding:18px 0 0;
+                            margin-top:10px;
+                            gap:10px;
+                        ">
+
                             <button type="button" data-dismiss="modal"
-                                style="display:flex; align-items:center; gap:8px; padding:11px 22px; background:#fff; color:#475569; border:1.5px solid #E2E8F0; border-radius:10px; font-size:15px; font-weight:600; cursor:pointer;"
+                                style="
+                                display:flex;
+                                align-items:center;
+                                gap:8px;
+                                padding:11px 22px;
+                                background:#fff;
+                                color:#475569;
+                                border:1.5px solid #E2E8F0;
+                                border-radius:10px;
+                                font-size:15px;
+                                font-weight:600;
+                                cursor:pointer;
+                            "
                                 onmouseover="this.style.background='#F1F5F9'" onmouseout="this.style.background='#fff'">
-                                <i class="fas fa-times"></i> Batal
+
+                                <i class="fas fa-times"></i>
+                                Batal
+
                             </button>
+
+
                             <button type="submit"
-                                style="display:flex; align-items:center; gap:8px; padding:11px 24px; background:#2E7D32; color:#fff; border:none; border-radius:10px; font-size:15px; font-weight:600; cursor:pointer;"
+                                style="
+                                display:flex;
+                                align-items:center;
+                                gap:8px;
+                                padding:11px 24px;
+                                background:#2E7D32;
+                                color:#fff;
+                                border:none;
+                                border-radius:10px;
+                                font-size:15px;
+                                font-weight:600;
+                                cursor:pointer;
+                            "
                                 onmouseover="this.style.background='#256528'"
                                 onmouseout="this.style.background='#2E7D32'">
-                                <i class="fas fa-save"></i> Simpan
+
+                                <i class="fas fa-save"></i>
+                                Simpan
+
                             </button>
+
                         </div>
+
                     </form>
+
                 </div>
+
             </div>
+
         </div>
+
     </div>
 
 
     {{-- Modal Edit Penduduk --}}
     <div class="modal fade" id="modalEditPenduduk" tabindex="-1" role="dialog"
         aria-labelledby="modalEditPendudukLabel" aria-hidden="true">
+
         <div class="modal-dialog modal-lg" role="document">
+
             <div class="modal-content"
                 style="border:none; border-radius:16px; overflow:hidden; box-shadow:0 10px 40px rgba(0,0,0,0.15);">
 
+                {{-- HEADER --}}
                 <div class="modal-header" style="background:#F59E0B; padding:22px 28px; border:none;">
+
                     <h5 class="modal-title" id="modalEditPendudukLabel"
                         style="font-size:22px; font-weight:700; color:#fff; display:flex; align-items:center; gap:10px; margin:0;">
-                        <i class="fas fa-user-edit"></i> Edit Penduduk
+
+                        <i class="fas fa-user-edit"></i>
+                        Edit Penduduk
+
                     </h5>
+
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"
                         style="color:#fff; opacity:0.9; font-size:26px; text-shadow:none;">
+
                         <span aria-hidden="true">&times;</span>
+
                     </button>
+
                 </div>
 
+
+                {{-- BODY --}}
                 <div class="modal-body" style="padding:28px; background:#FFFBEB;">
+
                     <form action="{{ route('admin.penduduk.update', $penduduk->id ?? '') }}" method="POST"
                         enctype="multipart/form-data" id="formEditPenduduk">
+
                         @csrf
                         @method('PUT')
+
                         <input type="hidden" name="id" id="edit_id"
                             value="{{ old('id', $penduduk->id ?? '') }}">
+
+
                         <div class="row">
+
+                            {{-- ================================================= --}}
+                            {{-- KOLOM KIRI --}}
+                            {{-- ================================================= --}}
                             <div class="col-md-6">
 
+                                {{-- IDENTITAS --}}
                                 <div
-                                    style="font-size:13.5px; font-weight:800; text-transform:uppercase; letter-spacing:0.06em; color:#B45309; margin:4px 0 16px; padding-bottom:10px; border-bottom:2px solid #FDE68A;">
+                                    style="
+                                font-size:13.5px;
+                                font-weight:800;
+                                text-transform:uppercase;
+                                letter-spacing:0.06em;
+                                color:#B45309;
+                                margin:4px 0 16px;
+                                padding-bottom:10px;
+                                border-bottom:2px solid #FDE68A;
+                            ">
                                     Identitas
                                 </div>
 
+
+                                {{-- NIK --}}
                                 <div class="form-group" style="margin-bottom:18px;">
+
                                     <label
-                                        style="font-size:15px; font-weight:600; color:#334155; display:block; margin-bottom:8px;">NIK</label>
+                                        style="
+                                    font-size:15px;
+                                    font-weight:600;
+                                    color:#334155;
+                                    display:block;
+                                    margin-bottom:8px;
+                                ">
+                                        NIK
+                                    </label>
+
                                     <input type="text" id="edit_nik" name="nik" pattern="\d{16}" maxlength="16"
                                         required
-                                        style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:46px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
+                                        style="
+                                        width:100%;
+                                        padding:12px 14px;
+                                        font-size:15px;
+                                        color:#1E293B;
+                                        height:46px;
+                                        border:1.5px solid #E2E8F0;
+                                        border-radius:10px;
+                                        background:#fff;
+                                        outline:none;
+                                    "
                                         onfocus="this.style.borderColor='#F59E0B'"
                                         onblur="this.style.borderColor='#E2E8F0'">
+
                                 </div>
+
+
+                                {{-- NAMA LENGKAP --}}
                                 <div class="form-group" style="margin-bottom:18px;">
+
                                     <label
-                                        style="font-size:15px; font-weight:600; color:#334155; display:block; margin-bottom:8px;">Nama
-                                        Lengkap</label>
+                                        style="
+                                    font-size:15px;
+                                    font-weight:600;
+                                    color:#334155;
+                                    display:block;
+                                    margin-bottom:8px;
+                                ">
+                                        Nama Lengkap
+                                    </label>
+
                                     <input type="text" id="edit_nama_lengkap" name="nama_lengkap" required
-                                        style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:46px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
+                                        style="
+                                        width:100%;
+                                        padding:12px 14px;
+                                        font-size:15px;
+                                        color:#1E293B;
+                                        height:46px;
+                                        border:1.5px solid #E2E8F0;
+                                        border-radius:10px;
+                                        background:#fff;
+                                        outline:none;
+                                    "
                                         onfocus="this.style.borderColor='#F59E0B'"
                                         onblur="this.style.borderColor='#E2E8F0'">
+
                                 </div>
+
+
+                                {{-- JENIS KELAMIN --}}
                                 <div class="form-group" style="margin-bottom:18px;">
+
                                     <label
-                                        style="font-size:15px; font-weight:600; color:#334155; display:block; margin-bottom:8px;">Jenis
-                                        Kelamin</label>
+                                        style="
+                                    font-size:15px;
+                                    font-weight:600;
+                                    color:#334155;
+                                    display:block;
+                                    margin-bottom:8px;
+                                ">
+                                        Jenis Kelamin
+                                    </label>
+
                                     <select id="edit_jenis_kelamin" name="jenis_kelamin" required
-                                        style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:46px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
+                                        style="
+                                        width:100%;
+                                        padding:12px 14px;
+                                        font-size:15px;
+                                        color:#1E293B;
+                                        height:46px;
+                                        border:1.5px solid #E2E8F0;
+                                        border-radius:10px;
+                                        background:#fff;
+                                        outline:none;
+                                    "
                                         onfocus="this.style.borderColor='#F59E0B'"
                                         onblur="this.style.borderColor='#E2E8F0'">
+
+                                        <option value="">Pilih Jenis Kelamin</option>
                                         <option value="Laki-laki">Laki-laki</option>
                                         <option value="Perempuan">Perempuan</option>
+
                                     </select>
+
                                 </div>
+
+
+                                {{-- PENDIDIKAN --}}
                                 <div class="form-group" style="margin-bottom:18px;">
+
                                     <label
-                                        style="font-size:15px; font-weight:600; color:#334155; display:block; margin-bottom:8px;">Pendidikan</label>
+                                        style="
+                                    font-size:15px;
+                                    font-weight:600;
+                                    color:#334155;
+                                    display:block;
+                                    margin-bottom:8px;
+                                ">
+                                        Pendidikan
+                                    </label>
+
                                     <select id="edit_pendidikan" name="pendidikan" required
-                                        style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:46px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
+                                        style="
+                                        width:100%;
+                                        padding:12px 14px;
+                                        font-size:15px;
+                                        color:#1E293B;
+                                        height:46px;
+                                        border:1.5px solid #E2E8F0;
+                                        border-radius:10px;
+                                        background:#fff;
+                                        outline:none;
+                                    "
                                         onfocus="this.style.borderColor='#F59E0B'"
                                         onblur="this.style.borderColor='#E2E8F0'">
+
+                                        <option value="">Pilih Pendidikan</option>
                                         <option value="SD">SD</option>
                                         <option value="SMP">SMP</option>
                                         <option value="SMA">SMA</option>
                                         <option value="Strata 1">Strata 1</option>
                                         <option value="Strata 2">Strata 2</option>
                                         <option value="Strata 3">Strata 3</option>
+
                                     </select>
+
                                 </div>
+
+
+                                {{-- TEMPAT LAHIR --}}
                                 <div class="form-group" style="margin-bottom:18px;">
+
                                     <label
-                                        style="font-size:15px; font-weight:600; color:#334155; display:block; margin-bottom:8px;">Tempat
-                                        Lahir</label>
+                                        style="
+                                    font-size:15px;
+                                    font-weight:600;
+                                    color:#334155;
+                                    display:block;
+                                    margin-bottom:8px;
+                                ">
+                                        Tempat Lahir
+                                    </label>
+
                                     <input type="text" id="edit_tempat_lahir" name="tempat_lahir" required
-                                        style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:46px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
+                                        style="
+                                        width:100%;
+                                        padding:12px 14px;
+                                        font-size:15px;
+                                        color:#1E293B;
+                                        height:46px;
+                                        border:1.5px solid #E2E8F0;
+                                        border-radius:10px;
+                                        background:#fff;
+                                        outline:none;
+                                    "
                                         onfocus="this.style.borderColor='#F59E0B'"
                                         onblur="this.style.borderColor='#E2E8F0'">
+
                                 </div>
+
+
+                                {{-- TANGGAL LAHIR --}}
                                 <div class="form-group" style="margin-bottom:18px;">
+
                                     <label
-                                        style="font-size:15px; font-weight:600; color:#334155; display:block; margin-bottom:8px;">Tanggal
-                                        Lahir</label>
+                                        style="
+                                    font-size:15px;
+                                    font-weight:600;
+                                    color:#334155;
+                                    display:block;
+                                    margin-bottom:8px;
+                                ">
+                                        Tanggal Lahir
+                                    </label>
+
                                     <input type="date" id="edit_tanggal_lahir" name="tanggal_lahir" required
-                                        style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:46px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
+                                        style="
+                                        width:100%;
+                                        padding:12px 14px;
+                                        font-size:15px;
+                                        color:#1E293B;
+                                        height:46px;
+                                        border:1.5px solid #E2E8F0;
+                                        border-radius:10px;
+                                        background:#fff;
+                                        outline:none;
+                                    "
                                         onfocus="this.style.borderColor='#F59E0B'"
                                         onblur="this.style.borderColor='#E2E8F0'">
+
                                 </div>
+
+
+                                {{-- GOLONGAN DARAH --}}
                                 <div class="form-group" style="margin-bottom:18px;">
+
                                     <label
-                                        style="font-size:15px; font-weight:600; color:#334155; display:block; margin-bottom:8px;">Golongan
-                                        Darah (Opsional)</label>
+                                        style="
+                                    font-size:15px;
+                                    font-weight:600;
+                                    color:#334155;
+                                    display:block;
+                                    margin-bottom:8px;
+                                ">
+                                        Golongan Darah (Opsional)
+                                    </label>
+
                                     <select id="edit_golongan_darah" name="golongan_darah"
-                                        style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:46px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
+                                        style="
+                                        width:100%;
+                                        padding:12px 14px;
+                                        font-size:15px;
+                                        color:#1E293B;
+                                        height:46px;
+                                        border:1.5px solid #E2E8F0;
+                                        border-radius:10px;
+                                        background:#fff;
+                                        outline:none;
+                                    "
                                         onfocus="this.style.borderColor='#F59E0B'"
                                         onblur="this.style.borderColor='#E2E8F0'">
+
                                         <option value="">Pilih Golongan Darah</option>
                                         <option value="A">A</option>
                                         <option value="B">B</option>
                                         <option value="AB">AB</option>
                                         <option value="O">O</option>
                                         <option value="Tidak Tahu">Tidak Tahu</option>
+
                                     </select>
+
                                 </div>
+
+
+                                {{-- JENIS PEKERJAAN --}}
                                 <div class="form-group" style="margin-bottom:18px;">
+
                                     <label
-                                        style="font-size:15px; font-weight:600; color:#334155; display:block; margin-bottom:8px;">Jenis
-                                        Pekerjaan</label>
+                                        style="
+                                    font-size:15px;
+                                    font-weight:600;
+                                    color:#334155;
+                                    display:block;
+                                    margin-bottom:8px;
+                                ">
+                                        Jenis Pekerjaan
+                                    </label>
+
                                     <input type="text" id="edit_jenis_pekerjaan" name="jenis_pekerjaan" required
-                                        style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:46px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
+                                        style="
+                                        width:100%;
+                                        padding:12px 14px;
+                                        font-size:15px;
+                                        color:#1E293B;
+                                        height:46px;
+                                        border:1.5px solid #E2E8F0;
+                                        border-radius:10px;
+                                        background:#fff;
+                                        outline:none;
+                                    "
                                         onfocus="this.style.borderColor='#F59E0B'"
                                         onblur="this.style.borderColor='#E2E8F0'">
+
                                 </div>
+
+                            </div>
+
+
+                            {{-- ================================================= --}}
+                            {{-- KOLOM KANAN --}}
+                            {{-- ================================================= --}}
+                            <div class="col-md-6">
+
+                                {{-- DATA KELUARGA --}}
+                                <div
+                                    style="
+                                font-size:13.5px;
+                                font-weight:800;
+                                text-transform:uppercase;
+                                letter-spacing:0.06em;
+                                color:#B45309;
+                                margin:4px 0 16px;
+                                padding-bottom:10px;
+                                border-bottom:2px solid #FDE68A;
+                            ">
+                                    Data Keluarga
+                                </div>
+
+
+                                {{-- AGAMA --}}
                                 <div class="form-group" style="margin-bottom:18px;">
+
                                     <label
-                                        style="font-size:15px; font-weight:600; color:#334155; display:block; margin-bottom:8px;">Agama</label>
+                                        style="
+                                    font-size:15px;
+                                    font-weight:600;
+                                    color:#334155;
+                                    display:block;
+                                    margin-bottom:8px;
+                                ">
+                                        Agama
+                                    </label>
+
                                     <select id="edit_agama" name="agama" required
-                                        style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:46px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
+                                        style="
+                                        width:100%;
+                                        padding:12px 14px;
+                                        font-size:15px;
+                                        color:#1E293B;
+                                        height:46px;
+                                        border:1.5px solid #E2E8F0;
+                                        border-radius:10px;
+                                        background:#fff;
+                                        outline:none;
+                                    "
                                         onfocus="this.style.borderColor='#F59E0B'"
                                         onblur="this.style.borderColor='#E2E8F0'">
+
+                                        <option value="">Pilih Agama</option>
                                         <option value="Islam">Islam</option>
                                         <option value="Kristen Protestan">Kristen Protestan</option>
                                         <option value="Katolik">Katolik</option>
                                         <option value="Hindu">Hindu</option>
                                         <option value="Buddha">Buddha</option>
                                         <option value="Konghucu">Konghucu</option>
+
                                     </select>
+
                                 </div>
+
+
+                                {{-- STATUS PERKAWINAN --}}
                                 <div class="form-group" style="margin-bottom:18px;">
+
                                     <label
-                                        style="font-size:15px; font-weight:600; color:#334155; display:block; margin-bottom:8px;">Status
-                                        Perkawinan</label>
+                                        style="
+                                    font-size:15px;
+                                    font-weight:600;
+                                    color:#334155;
+                                    display:block;
+                                    margin-bottom:8px;
+                                ">
+                                        Status Perkawinan
+                                    </label>
+
                                     <select id="edit_status_perkawinan" name="status_perkawinan" required
-                                        style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:46px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
+                                        style="
+                                        width:100%;
+                                        padding:12px 14px;
+                                        font-size:15px;
+                                        color:#1E293B;
+                                        height:46px;
+                                        border:1.5px solid #E2E8F0;
+                                        border-radius:10px;
+                                        background:#fff;
+                                        outline:none;
+                                    "
                                         onfocus="this.style.borderColor='#F59E0B'"
                                         onblur="this.style.borderColor='#E2E8F0'">
+
+                                        <option value="">Pilih Status Perkawinan</option>
                                         <option value="Kawin">Kawin</option>
                                         <option value="Belum Kawin">Belum Kawin</option>
+
                                     </select>
+
                                 </div>
 
-                                <div
-                                    style="font-size:13.5px; font-weight:800; text-transform:uppercase; letter-spacing:0.06em; color:#B45309; margin:26px 0 16px; padding-bottom:10px; border-bottom:2px solid #FDE68A;">
-                                    Data Keluarga
-                                </div>
 
-                                <div class="form-row">
-                                    <div class="form-group col-md-6" style="margin-bottom:18px;">
-                                        <label
-                                            style="font-size:15px; font-weight:600; color:#334155; display:block; margin-bottom:8px;">Nama
-                                            Ibu</label>
-                                        <input type="text" id="edit_ibu" name="ibu" required
-                                            style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:46px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
-                                            onfocus="this.style.borderColor='#F59E0B'"
-                                            onblur="this.style.borderColor='#E2E8F0'">
-                                    </div>
-                                    <div class="form-group col-md-6" style="margin-bottom:18px;">
-                                        <label
-                                            style="font-size:15px; font-weight:600; color:#334155; display:block; margin-bottom:8px;">Nama
-                                            Ayah</label>
-                                        <input type="text" id="edit_ayah" name="ayah" required
-                                            style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:46px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
-                                            onfocus="this.style.borderColor='#F59E0B'"
-                                            onblur="this.style.borderColor='#E2E8F0'">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-
-                                <div
-                                    style="font-size:13.5px; font-weight:800; text-transform:uppercase; letter-spacing:0.06em; color:#B45309; margin:4px 0 16px; padding-bottom:10px; border-bottom:2px solid #FDE68A;">
-                                    Status &amp; Foto
-                                </div>
-
+                                {{-- STATUS HUBUNGAN --}}
                                 <div class="form-group" style="margin-bottom:18px;">
+
                                     <label
-                                        style="font-size:15px; font-weight:600; color:#334155; display:block; margin-bottom:8px;">Status
-                                        Hubungan Keluarga</label>
+                                        style="
+                                    font-size:15px;
+                                    font-weight:600;
+                                    color:#334155;
+                                    display:block;
+                                    margin-bottom:8px;
+                                ">
+                                        Status Hubungan Keluarga
+                                    </label>
+
                                     <select id="edit_status_hubungan_dalam_keluarga" name="status_hubungan_dalam_keluarga"
                                         required
-                                        style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:46px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
+                                        style="
+                                        width:100%;
+                                        padding:12px 14px;
+                                        font-size:15px;
+                                        color:#1E293B;
+                                        height:46px;
+                                        border:1.5px solid #E2E8F0;
+                                        border-radius:10px;
+                                        background:#fff;
+                                        outline:none;
+                                    "
                                         onfocus="this.style.borderColor='#F59E0B'"
                                         onblur="this.style.borderColor='#E2E8F0'">
+
+                                        <option value="">Pilih Status Hubungan</option>
                                         <option value="Kepala Keluarga">Kepala Keluarga</option>
                                         <option value="Suami">Suami</option>
                                         <option value="Istri">Istri</option>
@@ -717,398 +1473,776 @@
                                         <option value="Mertua">Mertua</option>
                                         <option value="Cucu">Cucu</option>
                                         <option value="Lainnya">Lainnya</option>
+
                                     </select>
-                                </div>
-                                <div class="form-group" style="margin-bottom:18px;">
-                                    <label
-                                        style="font-size:15px; font-weight:600; color:#334155; display:block; margin-bottom:8px;">Tanggal
-                                        Perkawinan</label>
-                                    <input type="date" id="edit_tanggal_perkawinan" name="tanggal_perkawinan"
-                                        style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:46px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
-                                        onfocus="this.style.borderColor='#F59E0B'"
-                                        onblur="this.style.borderColor='#E2E8F0'">
-                                </div>
-                                <div class="form-group" style="margin-bottom:18px;">
-                                    <label
-                                        style="font-size:15px; font-weight:600; color:#334155; display:block; margin-bottom:8px;">Foto</label>
-                                    <input type="file" id="edit_foto" name="foto"
-                                        accept="image/jpeg,image/png,image/jpg,image/gif"
-                                        style="width:100%; padding:9px 14px; font-size:15px; color:#1E293B; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
-                                        onfocus="this.style.borderColor='#F59E0B'"
-                                        onblur="this.style.borderColor='#E2E8F0'">
-                                    <small
-                                        style="display:block; margin-top:6px; font-size:13.5px; color:#64748B;">Kosongkan
-                                        jika tidak ingin mengubah foto.</small>
+
                                 </div>
 
+
+                                {{-- TANGGAL PERKAWINAN --}}
+                                <div class="form-group" style="margin-bottom:18px;">
+
+                                    <label
+                                        style="
+                                    font-size:15px;
+                                    font-weight:600;
+                                    color:#334155;
+                                    display:block;
+                                    margin-bottom:8px;
+                                ">
+                                        Tanggal Perkawinan (Opsional)
+                                    </label>
+
+                                    <input type="date" id="edit_tanggal_perkawinan" name="tanggal_perkawinan"
+                                        style="
+                                        width:100%;
+                                        padding:12px 14px;
+                                        font-size:15px;
+                                        color:#1E293B;
+                                        height:46px;
+                                        border:1.5px solid #E2E8F0;
+                                        border-radius:10px;
+                                        background:#fff;
+                                        outline:none;
+                                    "
+                                        onfocus="this.style.borderColor='#F59E0B'"
+                                        onblur="this.style.borderColor='#E2E8F0'">
+
+                                </div>
+
+
+                                {{-- IBU & AYAH --}}
+                                <div class="form-row">
+
+                                    {{-- IBU --}}
+                                    <div class="form-group col-md-6" style="margin-bottom:18px;">
+
+                                        <label
+                                            style="
+                                        font-size:15px;
+                                        font-weight:600;
+                                        color:#334155;
+                                        display:block;
+                                        margin-bottom:8px;
+                                    ">
+                                            Nama Ibu
+                                        </label>
+
+                                        <input type="text" id="edit_ibu" name="ibu" required
+                                            style="
+                                            width:100%;
+                                            padding:12px 14px;
+                                            font-size:15px;
+                                            color:#1E293B;
+                                            height:46px;
+                                            border:1.5px solid #E2E8F0;
+                                            border-radius:10px;
+                                            background:#fff;
+                                            outline:none;
+                                        "
+                                            onfocus="this.style.borderColor='#F59E0B'"
+                                            onblur="this.style.borderColor='#E2E8F0'">
+
+                                    </div>
+
+
+                                    {{-- AYAH --}}
+                                    <div class="form-group col-md-6" style="margin-bottom:18px;">
+
+                                        <label
+                                            style="
+                                        font-size:15px;
+                                        font-weight:600;
+                                        color:#334155;
+                                        display:block;
+                                        margin-bottom:8px;
+                                    ">
+                                            Nama Ayah
+                                        </label>
+
+                                        <input type="text" id="edit_ayah" name="ayah" required
+                                            style="
+                                            width:100%;
+                                            padding:12px 14px;
+                                            font-size:15px;
+                                            color:#1E293B;
+                                            height:46px;
+                                            border:1.5px solid #E2E8F0;
+                                            border-radius:10px;
+                                            background:#fff;
+                                            outline:none;
+                                        "
+                                            onfocus="this.style.borderColor='#F59E0B'"
+                                            onblur="this.style.borderColor='#E2E8F0'">
+
+                                    </div>
+
+                                </div>
+
+
+                                {{-- ALAMAT --}}
                                 <div
-                                    style="font-size:13.5px; font-weight:800; text-transform:uppercase; letter-spacing:0.06em; color:#B45309; margin:26px 0 16px; padding-bottom:10px; border-bottom:2px solid #FDE68A;">
+                                    style="
+                                font-size:13.5px;
+                                font-weight:800;
+                                text-transform:uppercase;
+                                letter-spacing:0.06em;
+                                color:#B45309;
+                                margin:8px 0 16px;
+                                padding-bottom:10px;
+                                border-bottom:2px solid #FDE68A;
+                            ">
                                     Alamat
                                 </div>
 
+
+                                {{-- ALAMAT --}}
                                 <div class="form-group" style="margin-bottom:18px;">
+
                                     <label
-                                        style="font-size:15px; font-weight:600; color:#334155; display:block; margin-bottom:8px;">Alamat</label>
-                                    <input type="text" id="edit_alamat" name="alamat" required
-                                        style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:46px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
-                                        onfocus="this.style.borderColor='#F59E0B'"
-                                        onblur="this.style.borderColor='#E2E8F0'">
+                                        style="
+                                    font-size:15px;
+                                    font-weight:600;
+                                    color:#334155;
+                                    display:block;
+                                    margin-bottom:8px;
+                                ">
+                                        Alamat
+                                    </label>
+
+                                    <textarea id="edit_alamat" name="alamat" required rows="3"
+                                        style="
+                                        width:100%;
+                                        padding:12px 14px;
+                                        font-size:15px;
+                                        color:#1E293B;
+                                        border:1.5px solid #E2E8F0;
+                                        border-radius:10px;
+                                        background:#fff;
+                                        outline:none;
+                                        resize:none;
+                                    "
+                                        onfocus="this.style.borderColor='#F59E0B'" onblur="this.style.borderColor='#E2E8F0'"></textarea>
+
                                 </div>
+
+
+                                {{-- KEWARGANEGARAAN --}}
                                 <div class="form-group" style="margin-bottom:18px;">
+
                                     <label
-                                        style="font-size:15px; font-weight:600; color:#334155; display:block; margin-bottom:8px;">Dusun
-                                        (Opsional)</label>
-                                    <input type="text" id="edit_dusun" name="dusun"
-                                        style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:46px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
-                                        onfocus="this.style.borderColor='#F59E0B'"
-                                        onblur="this.style.borderColor='#E2E8F0'">
-                                </div>
-                                <div class="form-group" style="margin-bottom:18px;">
-                                    <label
-                                        style="font-size:15px; font-weight:600; color:#334155; display:block; margin-bottom:8px;">Desa/Kelurahan</label>
-                                    <input type="text" id="edit_desa_kelurahan" name="desa_kelurahan" required
-                                        style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:46px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
-                                        onfocus="this.style.borderColor='#F59E0B'"
-                                        onblur="this.style.borderColor='#E2E8F0'">
-                                </div>
-                                <div class="form-group" style="margin-bottom:18px;">
-                                    <label
-                                        style="font-size:15px; font-weight:600; color:#334155; display:block; margin-bottom:8px;">Kecamatan</label>
-                                    <input type="text" id="edit_kecamatan" name="kecamatan" required
-                                        style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:46px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
-                                        onfocus="this.style.borderColor='#F59E0B'"
-                                        onblur="this.style.borderColor='#E2E8F0'">
-                                </div>
-                                <div class="form-group" style="margin-bottom:18px;">
-                                    <label
-                                        style="font-size:15px; font-weight:600; color:#334155; display:block; margin-bottom:8px;">Kabupaten/Kota</label>
-                                    <input type="text" id="edit_kabupaten_kota" name="kabupaten_kota" required
-                                        style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:46px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
-                                        onfocus="this.style.borderColor='#F59E0B'"
-                                        onblur="this.style.borderColor='#E2E8F0'">
-                                </div>
-                                <div class="form-group" style="margin-bottom:18px;">
-                                    <label
-                                        style="font-size:15px; font-weight:600; color:#334155; display:block; margin-bottom:8px;">Provinsi</label>
-                                    <input type="text" id="edit_provinsi" name="provinsi" required
-                                        style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:46px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
-                                        onfocus="this.style.borderColor='#F59E0B'"
-                                        onblur="this.style.borderColor='#E2E8F0'">
-                                </div>
-                                <div class="form-group" style="margin-bottom:18px;">
-                                    <label
-                                        style="font-size:15px; font-weight:600; color:#334155; display:block; margin-bottom:8px;">Kewarganegaraan</label>
+                                        style="
+                                    font-size:15px;
+                                    font-weight:600;
+                                    color:#334155;
+                                    display:block;
+                                    margin-bottom:8px;
+                                ">
+                                        Kewarganegaraan
+                                    </label>
+
                                     <select id="edit_kewarganegaraan" name="kewarganegaraan" required
-                                        style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:46px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
+                                        style="
+                                        width:100%;
+                                        padding:12px 14px;
+                                        font-size:15px;
+                                        color:#1E293B;
+                                        height:46px;
+                                        border:1.5px solid #E2E8F0;
+                                        border-radius:10px;
+                                        background:#fff;
+                                        outline:none;
+                                    "
                                         onfocus="this.style.borderColor='#F59E0B'"
                                         onblur="this.style.borderColor='#E2E8F0'">
+
+                                        <option value="">Pilih Kewarganegaraan</option>
                                         <option value="WNI">WNI</option>
                                         <option value="WNA">WNA</option>
+
                                     </select>
+
                                 </div>
+
+
+                                {{-- FOTO --}}
+                                <div class="form-group" style="margin-bottom:18px;">
+
+                                    <label
+                                        style="
+                                    font-size:15px;
+                                    font-weight:600;
+                                    color:#334155;
+                                    display:block;
+                                    margin-bottom:8px;
+                                ">
+                                        Foto (Opsional)
+                                    </label>
+
+                                    <input type="file" id="edit_foto" name="foto"
+                                        accept="image/jpeg,image/png,image/jpg,image/gif"
+                                        style="
+                                        width:100%;
+                                        padding:9px 14px;
+                                        font-size:15px;
+                                        color:#1E293B;
+                                        border:1.5px solid #E2E8F0;
+                                        border-radius:10px;
+                                        background:#fff;
+                                        outline:none;
+                                    "
+                                        onfocus="this.style.borderColor='#F59E0B'"
+                                        onblur="this.style.borderColor='#E2E8F0'">
+
+                                    <small
+                                        style="
+                                    display:block;
+                                    margin-top:6px;
+                                    font-size:13.5px;
+                                    color:#64748B;
+                                ">
+                                        Kosongkan jika tidak ingin mengubah foto.
+                                    </small>
+
+                                </div>
+
                             </div>
+
                         </div>
 
+
+                        {{-- FOOTER --}}
                         <div class="modal-footer"
-                            style="background:#fff; border-top:1.5px solid #F1F5F9; padding:18px 0 0; margin-top:10px; gap:10px;">
+                            style="
+                            background:#fff;
+                            border-top:1.5px solid #F1F5F9;
+                            padding:18px 0 0;
+                            margin-top:10px;
+                            gap:10px;
+                        ">
+
                             <button type="button" data-dismiss="modal"
-                                style="display:flex; align-items:center; gap:8px; padding:11px 22px; background:#fff; color:#475569; border:1.5px solid #E2E8F0; border-radius:10px; font-size:15px; font-weight:600; cursor:pointer;"
+                                style="
+                                display:flex;
+                                align-items:center;
+                                gap:8px;
+                                padding:11px 22px;
+                                background:#fff;
+                                color:#475569;
+                                border:1.5px solid #E2E8F0;
+                                border-radius:10px;
+                                font-size:15px;
+                                font-weight:600;
+                                cursor:pointer;
+                            "
                                 onmouseover="this.style.background='#F1F5F9'" onmouseout="this.style.background='#fff'">
-                                <i class="fas fa-times"></i> Batal
+
+                                <i class="fas fa-times"></i>
+                                Batal
+
                             </button>
+
+
                             <button type="submit"
-                                style="display:flex; align-items:center; gap:8px; padding:11px 24px; background:#F59E0B; color:#fff; border:none; border-radius:10px; font-size:15px; font-weight:600; cursor:pointer;"
+                                style="
+                                display:flex;
+                                align-items:center;
+                                gap:8px;
+                                padding:11px 24px;
+                                background:#F59E0B;
+                                color:#fff;
+                                border:none;
+                                border-radius:10px;
+                                font-size:15px;
+                                font-weight:600;
+                                cursor:pointer;
+                            "
                                 onmouseover="this.style.background='#D97706'"
                                 onmouseout="this.style.background='#F59E0B'">
-                                <i class="fas fa-save"></i> Simpan
+
+                                <i class="fas fa-save"></i>
+                                Simpan
+
                             </button>
+
                         </div>
+
                     </form>
+
                 </div>
+
             </div>
+
         </div>
+
     </div>
 
 
     {{-- Modal Detail Penduduk --}}
     <div class="modal fade" id="modalDetailPenduduk" tabindex="-1" role="dialog"
         aria-labelledby="modalDetailPendudukLabel" aria-hidden="true">
+
         <div class="modal-dialog modal-lg" role="document">
+
             <div class="modal-content" style="border:none; border-radius:16px; overflow:hidden;">
 
+                {{-- HEADER --}}
                 <div class="modal-header" style="background:#0EA5E9; border:none; padding:22px 28px;">
+
                     <h5 class="modal-title" id="modalDetailPendudukLabel"
                         style="font-size:22px; font-weight:700; color:#fff; display:flex; align-items:center; gap:10px; margin:0;">
-                        <i class="fas fa-user"></i> Detail Penduduk
+
+                        <i class="fas fa-user"></i>
+                        Detail Penduduk
+
                     </h5>
+
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"
                         style="color:#fff; opacity:0.9; font-size:26px; text-shadow:none;">
+
                         <span aria-hidden="true">&times;</span>
+
                     </button>
+
                 </div>
 
+
+                {{-- BODY --}}
                 <div class="modal-body" style="background:#F1F5F9; padding:24px 28px;">
 
-                    {{-- Header profil --}}
+                    {{-- HEADER PROFIL --}}
                     <div class="d-flex align-items-center"
                         style="background:#fff; border-radius:14px; box-shadow:0 4px 14px rgba(15,23,42,0.06); padding:20px; margin-bottom:20px;">
+
                         <img id="detail_foto" src="{{ asset('images/default-avatar.png') }}" alt="Foto Penduduk"
                             class="rounded-circle"
                             style="width:92px; height:92px; object-fit:cover; border:3px solid #0EA5E9; box-shadow:0 4px 12px rgba(14,165,233,0.25);">
+
                         <div class="ml-3">
+
                             <h4 id="detail_nama"
-                                style="font-size:23px; font-weight:800; color:#0F172A; margin-bottom:4px;"></h4>
+                                style="font-size:23px; font-weight:800; color:#0F172A; margin-bottom:4px;">
+                            </h4>
+
                             <span id="detail_status_keluarga"
-                                style="font-size:13.5px; font-weight:700; padding:6px 14px; border-radius:999px; background:#E0F2FE; color:#0369A1; display:inline-block;"></span>
+                                style="font-size:13.5px; font-weight:700; padding:6px 14px; border-radius:999px; background:#E0F2FE; color:#0369A1; display:inline-block;">
+                            </span>
+
                             <span
                                 style="display:inline-flex; align-items:center; gap:6px; font-size:15px; font-weight:600; color:#475569; margin-top:6px;">
-                                <i class="fas fa-id-card"></i> <span id="detail_nik"></span>
+
+                                <i class="fas fa-id-card"></i>
+
+                                <span id="detail_nik"></span>
+
                             </span>
+
                         </div>
+
                     </div>
+
 
                     <div class="row">
-                        {{-- Data Pribadi --}}
+
+                        {{-- ===================================================== --}}
+                        {{-- KOLOM KIRI --}}
+                        {{-- DATA PRIBADI --}}
+                        {{-- ===================================================== --}}
                         <div class="col-md-6 mb-3">
+
                             <div
                                 style="background:#fff; border-radius:14px; box-shadow:0 4px 14px rgba(15,23,42,0.06); padding:20px; height:100%;">
+
+                                {{-- HEADER --}}
                                 <div
                                     style="display:flex; align-items:center; gap:10px; font-size:16px; font-weight:800; color:#0369A1; padding-bottom:12px; margin-bottom:16px; border-bottom:2px solid #E0F2FE;">
+
                                     <i class="fas fa-user"
-                                        style="width:32px; height:32px; border-radius:50%; background:#E0F2FE; display:inline-flex; align-items:center; justify-content:center; font-size:14px;"></i>
+                                        style="width:32px; height:32px; border-radius:50%; background:#E0F2FE; display:inline-flex; align-items:center; justify-content:center; font-size:14px;">
+                                    </i>
+
                                     Data Pribadi
+
                                 </div>
 
+
+                                {{-- JENIS KELAMIN --}}
                                 <div style="display:flex; gap:12px; padding:9px 0; border-bottom:1px dashed #EEF2F6;">
-                                    <i class="fas fa-venus-mars" style="width:20px; padding-top:3px; color:#94A3B8;"></i>
+
+                                    <i class="fas fa-venus-mars" style="width:20px; padding-top:3px; color:#94A3B8;">
+                                    </i>
+
                                     <div>
+
                                         <span
-                                            style="display:block; font-size:12.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:#94A3B8;">Jenis
-                                            Kelamin</span>
+                                            style="display:block; font-size:12.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:#94A3B8;">
+                                            Jenis Kelamin
+                                        </span>
+
                                         <span id="detail_kelamin"
-                                            style="display:block; font-size:16px; font-weight:600; color:#1E293B;"></span>
+                                            style="display:block; font-size:16px; font-weight:600; color:#1E293B;">
+                                        </span>
+
                                     </div>
+
                                 </div>
+
+
+                                {{-- TEMPAT LAHIR --}}
                                 <div style="display:flex; gap:12px; padding:9px 0; border-bottom:1px dashed #EEF2F6;">
-                                    <i class="fas fa-map-marker-alt"
-                                        style="width:20px; padding-top:3px; color:#94A3B8;"></i>
+
+                                    <i class="fas fa-map-marker-alt" style="width:20px; padding-top:3px; color:#94A3B8;">
+                                    </i>
+
                                     <div>
+
                                         <span
-                                            style="display:block; font-size:12.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:#94A3B8;">Tempat
-                                            Lahir</span>
+                                            style="display:block; font-size:12.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:#94A3B8;">
+                                            Tempat Lahir
+                                        </span>
+
                                         <span id="detail_tempat_lahir"
-                                            style="display:block; font-size:16px; font-weight:600; color:#1E293B;"></span>
+                                            style="display:block; font-size:16px; font-weight:600; color:#1E293B;">
+                                        </span>
+
                                     </div>
+
                                 </div>
+
+
+                                {{-- TANGGAL LAHIR --}}
                                 <div style="display:flex; gap:12px; padding:9px 0; border-bottom:1px dashed #EEF2F6;">
-                                    <i class="fas fa-calendar" style="width:20px; padding-top:3px; color:#94A3B8;"></i>
+
+                                    <i class="fas fa-calendar" style="width:20px; padding-top:3px; color:#94A3B8;">
+                                    </i>
+
                                     <div>
+
                                         <span
-                                            style="display:block; font-size:12.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:#94A3B8;">Tanggal
-                                            Lahir</span>
+                                            style="display:block; font-size:12.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:#94A3B8;">
+                                            Tanggal Lahir
+                                        </span>
+
                                         <span id="detail_tanggal_lahir"
-                                            style="display:block; font-size:16px; font-weight:600; color:#1E293B;"></span>
+                                            style="display:block; font-size:16px; font-weight:600; color:#1E293B;">
+                                        </span>
+
                                     </div>
+
                                 </div>
+
+
+                                {{-- GOLONGAN DARAH --}}
                                 <div style="display:flex; gap:12px; padding:9px 0; border-bottom:1px dashed #EEF2F6;">
-                                    <i class="fas fa-tint" style="width:20px; padding-top:3px; color:#94A3B8;"></i>
+
+                                    <i class="fas fa-tint" style="width:20px; padding-top:3px; color:#94A3B8;">
+                                    </i>
+
                                     <div>
+
                                         <span
-                                            style="display:block; font-size:12.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:#94A3B8;">Golongan
-                                            Darah</span>
+                                            style="display:block; font-size:12.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:#94A3B8;">
+                                            Golongan Darah
+                                        </span>
+
                                         <span id="detail_golongan_darah"
-                                            style="display:block; font-size:16px; font-weight:600; color:#1E293B;"></span>
+                                            style="display:block; font-size:16px; font-weight:600; color:#1E293B;">
+                                        </span>
+
                                     </div>
+
                                 </div>
+
+
+                                {{-- PENDIDIKAN --}}
                                 <div style="display:flex; gap:12px; padding:9px 0; border-bottom:1px dashed #EEF2F6;">
-                                    <i class="fas fa-school" style="width:20px; padding-top:3px; color:#94A3B8;"></i>
+
+                                    <i class="fas fa-school" style="width:20px; padding-top:3px; color:#94A3B8;">
+                                    </i>
+
                                     <div>
+
                                         <span
-                                            style="display:block; font-size:12.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:#94A3B8;">Pendidikan</span>
+                                            style="display:block; font-size:12.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:#94A3B8;">
+                                            Pendidikan
+                                        </span>
+
                                         <span id="detail_pendidikan"
-                                            style="display:block; font-size:16px; font-weight:600; color:#1E293B;"></span>
+                                            style="display:block; font-size:16px; font-weight:600; color:#1E293B;">
+                                        </span>
+
                                     </div>
+
                                 </div>
+
+
+                                {{-- PEKERJAAN --}}
                                 <div style="display:flex; gap:12px; padding:9px 0; border-bottom:1px dashed #EEF2F6;">
-                                    <i class="fas fa-briefcase" style="width:20px; padding-top:3px; color:#94A3B8;"></i>
+
+                                    <i class="fas fa-briefcase" style="width:20px; padding-top:3px; color:#94A3B8;">
+                                    </i>
+
                                     <div>
+
                                         <span
-                                            style="display:block; font-size:12.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:#94A3B8;">Pekerjaan</span>
+                                            style="display:block; font-size:12.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:#94A3B8;">
+                                            Pekerjaan
+                                        </span>
+
                                         <span id="detail_pekerjaan"
-                                            style="display:block; font-size:16px; font-weight:600; color:#1E293B;"></span>
+                                            style="display:block; font-size:16px; font-weight:600; color:#1E293B;">
+                                        </span>
+
                                     </div>
+
                                 </div>
+
+
+                                {{-- AGAMA --}}
                                 <div style="display:flex; gap:12px; padding:9px 0; border-bottom:1px dashed #EEF2F6;">
-                                    <i class="fas fa-praying-hands"
-                                        style="width:20px; padding-top:3px; color:#94A3B8;"></i>
+
+                                    <i class="fas fa-praying-hands" style="width:20px; padding-top:3px; color:#94A3B8;">
+                                    </i>
+
                                     <div>
+
                                         <span
-                                            style="display:block; font-size:12.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:#94A3B8;">Agama</span>
+                                            style="display:block; font-size:12.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:#94A3B8;">
+                                            Agama
+                                        </span>
+
                                         <span id="detail_agama"
-                                            style="display:block; font-size:16px; font-weight:600; color:#1E293B;"></span>
+                                            style="display:block; font-size:16px; font-weight:600; color:#1E293B;">
+                                        </span>
+
                                     </div>
+
                                 </div>
+
+
+                                {{-- KEWARGANEGARAAN --}}
                                 <div style="display:flex; gap:12px; padding:9px 0;">
-                                    <i class="fas fa-flag" style="width:20px; padding-top:3px; color:#94A3B8;"></i>
+
+                                    <i class="fas fa-flag" style="width:20px; padding-top:3px; color:#94A3B8;">
+                                    </i>
+
                                     <div>
+
                                         <span
-                                            style="display:block; font-size:12.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:#94A3B8;">Kewarganegaraan</span>
+                                            style="display:block; font-size:12.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:#94A3B8;">
+                                            Kewarganegaraan
+                                        </span>
+
                                         <span id="detail_kewarganegaraan"
-                                            style="display:block; font-size:16px; font-weight:600; color:#1E293B;"></span>
+                                            style="display:block; font-size:16px; font-weight:600; color:#1E293B;">
+                                        </span>
+
                                     </div>
+
                                 </div>
+
                             </div>
+
                         </div>
 
-                        {{-- Data Keluarga --}}
+
+                        {{-- ===================================================== --}}
+                        {{-- KOLOM KANAN --}}
+                        {{-- DATA KELUARGA --}}
+                        {{-- ===================================================== --}}
                         <div class="col-md-6 mb-3">
+
                             <div
                                 style="background:#fff; border-radius:14px; box-shadow:0 4px 14px rgba(15,23,42,0.06); padding:20px; height:100%;">
+
+                                {{-- HEADER --}}
                                 <div
                                     style="display:flex; align-items:center; gap:10px; font-size:16px; font-weight:800; color:#0369A1; padding-bottom:12px; margin-bottom:16px; border-bottom:2px solid #E0F2FE;">
+
                                     <i class="fas fa-users"
-                                        style="width:32px; height:32px; border-radius:50%; background:#E0F2FE; display:inline-flex; align-items:center; justify-content:center; font-size:14px;"></i>
+                                        style="width:32px; height:32px; border-radius:50%; background:#E0F2FE; display:inline-flex; align-items:center; justify-content:center; font-size:14px;">
+                                    </i>
+
                                     Data Keluarga
+
                                 </div>
 
+
+                                {{-- STATUS PERKAWINAN --}}
                                 <div style="display:flex; gap:12px; padding:9px 0; border-bottom:1px dashed #EEF2F6;">
-                                    <i class="fas fa-ring" style="width:20px; padding-top:3px; color:#94A3B8;"></i>
+
+                                    <i class="fas fa-ring" style="width:20px; padding-top:3px; color:#94A3B8;">
+                                    </i>
+
                                     <div>
+
                                         <span
-                                            style="display:block; font-size:12.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:#94A3B8;">Status
-                                            Perkawinan</span>
+                                            style="display:block; font-size:12.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:#94A3B8;">
+                                            Status Perkawinan
+                                        </span>
+
                                         <span id="detail_status_perkawinan"
-                                            style="display:block; font-size:16px; font-weight:600; color:#1E293B;"></span>
+                                            style="display:block; font-size:16px; font-weight:600; color:#1E293B;">
+                                        </span>
+
                                     </div>
+
                                 </div>
+
+
+                                {{-- TANGGAL PERKAWINAN --}}
                                 <div style="display:flex; gap:12px; padding:9px 0; border-bottom:1px dashed #EEF2F6;">
-                                    <i class="fas fa-calendar-day"
-                                        style="width:20px; padding-top:3px; color:#94A3B8;"></i>
+
+                                    <i class="fas fa-calendar-day" style="width:20px; padding-top:3px; color:#94A3B8;">
+                                    </i>
+
                                     <div>
+
                                         <span
-                                            style="display:block; font-size:12.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:#94A3B8;">Tanggal
-                                            Perkawinan</span>
+                                            style="display:block; font-size:12.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:#94A3B8;">
+                                            Tanggal Perkawinan
+                                        </span>
+
                                         <span id="detail_tanggal_perkawinan"
-                                            style="display:block; font-size:16px; font-weight:600; color:#1E293B;"></span>
+                                            style="display:block; font-size:16px; font-weight:600; color:#1E293B;">
+                                        </span>
+
                                     </div>
+
                                 </div>
+
+
+                                {{-- NAMA AYAH --}}
                                 <div style="display:flex; gap:12px; padding:9px 0; border-bottom:1px dashed #EEF2F6;">
-                                    <i class="fas fa-user-friends"
-                                        style="width:20px; padding-top:3px; color:#94A3B8;"></i>
+
+                                    <i class="fas fa-user-friends" style="width:20px; padding-top:3px; color:#94A3B8;">
+                                    </i>
+
                                     <div>
+
                                         <span
-                                            style="display:block; font-size:12.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:#94A3B8;">Nama
-                                            Ayah</span>
+                                            style="display:block; font-size:12.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:#94A3B8;">
+                                            Nama Ayah
+                                        </span>
+
                                         <span id="detail_ayah"
-                                            style="display:block; font-size:16px; font-weight:600; color:#1E293B;"></span>
+                                            style="display:block; font-size:16px; font-weight:600; color:#1E293B;">
+                                        </span>
+
                                     </div>
+
                                 </div>
-                                <div style="display:flex; gap:12px; padding:9px 0;">
-                                    <i class="fas fa-user-friends"
-                                        style="width:20px; padding-top:3px; color:#94A3B8;"></i>
+
+
+                                {{-- NAMA IBU --}}
+                                <div style="display:flex; gap:12px; padding:9px 0; border-bottom:1px dashed #EEF2F6;">
+
+                                    <i class="fas fa-user-friends" style="width:20px; padding-top:3px; color:#94A3B8;">
+                                    </i>
+
                                     <div>
+
                                         <span
-                                            style="display:block; font-size:12.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:#94A3B8;">Nama
-                                            Ibu</span>
+                                            style="display:block; font-size:12.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:#94A3B8;">
+                                            Nama Ibu
+                                        </span>
+
                                         <span id="detail_ibu"
-                                            style="display:block; font-size:16px; font-weight:600; color:#1E293B;"></span>
+                                            style="display:block; font-size:16px; font-weight:600; color:#1E293B;">
+                                        </span>
+
                                     </div>
+
                                 </div>
+
+
+                                {{-- CATATAN / RUANG INFORMASI --}}
+                                <div
+                                    style="margin-top:14px; padding:13px 14px; background:#F8FAFC; border-radius:10px; border:1px solid #E2E8F0;">
+
+                                    <div style="display:flex; align-items:center; gap:8px; color:#64748B;">
+
+                                        <i class="fas fa-info-circle"></i>
+
+                                        <span style="font-size:13px; font-weight:600;">
+                                            Informasi keluarga tersimpan pada data penduduk.
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
                             </div>
+
                         </div>
 
-                        {{-- Alamat --}}
+
+                        {{-- ===================================================== --}}
+                        {{-- ALAMAT --}}
+                        {{-- ===================================================== --}}
                         <div class="col-md-12">
+
                             <div
                                 style="background:#fff; border-radius:14px; box-shadow:0 4px 14px rgba(15,23,42,0.06); padding:20px;">
+
+                                {{-- HEADER --}}
                                 <div
                                     style="display:flex; align-items:center; gap:10px; font-size:16px; font-weight:800; color:#0369A1; padding-bottom:12px; margin-bottom:16px; border-bottom:2px solid #E0F2FE;">
+
                                     <i class="fas fa-home"
-                                        style="width:32px; height:32px; border-radius:50%; background:#E0F2FE; display:inline-flex; align-items:center; justify-content:center; font-size:14px;"></i>
+                                        style="width:32px; height:32px; border-radius:50%; background:#E0F2FE; display:inline-flex; align-items:center; justify-content:center; font-size:14px;">
+                                    </i>
+
                                     Alamat
+
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div
-                                            style="display:flex; gap:12px; padding:9px 0; border-bottom:1px dashed #EEF2F6;">
-                                            <i class="fas fa-location-dot"
-                                                style="width:20px; padding-top:3px; color:#94A3B8;"></i>
-                                            <div>
-                                                <span
-                                                    style="display:block; font-size:12.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:#94A3B8;">Alamat</span>
-                                                <span id="detail_alamat"
-                                                    style="display:block; font-size:16px; font-weight:600; color:#1E293B;"></span>
-                                            </div>
-                                        </div>
-                                        <div
-                                            style="display:flex; gap:12px; padding:9px 0; border-bottom:1px dashed #EEF2F6;">
-                                            <i class="fas fa-house"
-                                                style="width:20px; padding-top:3px; color:#94A3B8;"></i>
-                                            <div>
-                                                <span
-                                                    style="display:block; font-size:12.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:#94A3B8;">Dusun</span>
-                                                <span id="detail_dusun"
-                                                    style="display:block; font-size:16px; font-weight:600; color:#1E293B;"></span>
-                                            </div>
-                                        </div>
-                                        <div style="display:flex; gap:12px; padding:9px 0;">
-                                            <i class="fas fa-signs-post"
-                                                style="width:20px; padding-top:3px; color:#94A3B8;"></i>
-                                            <div>
-                                                <span
-                                                    style="display:block; font-size:12.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:#94A3B8;">Desa/Kelurahan</span>
-                                                <span id="detail_desa"
-                                                    style="display:block; font-size:16px; font-weight:600; color:#1E293B;"></span>
-                                            </div>
-                                        </div>
+
+
+                                <div style="display:flex; gap:12px; padding:9px 0;">
+
+                                    <i class="fas fa-location-dot" style="width:20px; padding-top:3px; color:#94A3B8;">
+                                    </i>
+
+                                    <div style="flex:1;">
+
+                                        <span
+                                            style="display:block; font-size:12.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:#94A3B8;">
+                                            Alamat
+                                        </span>
+
+                                        <span id="detail_alamat"
+                                            style="display:block; font-size:16px; font-weight:600; color:#1E293B;">
+                                        </span>
+
                                     </div>
-                                    <div class="col-md-6">
-                                        <div
-                                            style="display:flex; gap:12px; padding:9px 0; border-bottom:1px dashed #EEF2F6;">
-                                            <i class="fas fa-building"
-                                                style="width:20px; padding-top:3px; color:#94A3B8;"></i>
-                                            <div>
-                                                <span
-                                                    style="display:block; font-size:12.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:#94A3B8;">Kecamatan</span>
-                                                <span id="detail_kecamatan"
-                                                    style="display:block; font-size:16px; font-weight:600; color:#1E293B;"></span>
-                                            </div>
-                                        </div>
-                                        <div
-                                            style="display:flex; gap:12px; padding:9px 0; border-bottom:1px dashed #EEF2F6;">
-                                            <i class="fas fa-city"
-                                                style="width:20px; padding-top:3px; color:#94A3B8;"></i>
-                                            <div>
-                                                <span
-                                                    style="display:block; font-size:12.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:#94A3B8;">Kabupaten/Kota</span>
-                                                <span id="detail_kabupaten"
-                                                    style="display:block; font-size:16px; font-weight:600; color:#1E293B;"></span>
-                                            </div>
-                                        </div>
-                                        <div style="display:flex; gap:12px; padding:9px 0;">
-                                            <i class="fas fa-earth-asia"
-                                                style="width:20px; padding-top:3px; color:#94A3B8;"></i>
-                                            <div>
-                                                <span
-                                                    style="display:block; font-size:12.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:#94A3B8;">Provinsi</span>
-                                                <span id="detail_provinsi"
-                                                    style="display:block; font-size:16px; font-weight:600; color:#1E293B;"></span>
-                                            </div>
-                                        </div>
-                                    </div>
+
                                 </div>
+
                             </div>
+
                         </div>
+
                     </div>
+
                 </div>
+
+
+                {{-- FOOTER --}}
                 <div class="modal-footer" style="background:#fff; border-top:1.5px solid #EEF1F6; padding:16px 28px;">
+
                     <button type="button" data-dismiss="modal"
                         style="display:flex; align-items:center; gap:8px; padding:11px 22px; background:#F1F5F9; color:#475569; border:1.5px solid #E2E8F0; border-radius:10px; font-size:15px; font-weight:600; cursor:pointer;"
                         onmouseover="this.style.background='#E2E8F0'" onmouseout="this.style.background='#F1F5F9'">
-                        <i class="fas fa-times"></i> Tutup
+
+                        <i class="fas fa-times"></i>
+                        Tutup
+
                     </button>
+
                 </div>
+
             </div>
+
         </div>
     </div>
 
@@ -1254,20 +2388,26 @@
             });
         });
 
-        //Ajax Modal Edit Penduduk
+        // Ajax Modal Edit Penduduk
         $(document).on("click", ".btn-edit", function() {
             let id = $(this).data("id");
 
             $.ajax({
-                url: `/admin/penduduk/${id}/edit`, // Sesuaikan route edit penduduk
+                url: `/admin/penduduk/${id}/edit`,
                 type: "GET",
                 dataType: "json",
+
                 success: function(response) {
                     if (response.success) {
                         let data = response.data;
 
-                        // Isi form modal edit penduduk
-                        $("#formEditPenduduk").attr("action", `/admin/penduduk/${id}`);
+                        // Isi action form
+                        $("#formEditPenduduk").attr(
+                            "action",
+                            `/admin/penduduk/${id}`
+                        );
+
+                        // Data identitas
                         $("#edit_id").val(data.id);
                         $("#edit_nik").val(data.nik);
                         $("#edit_nama_lengkap").val(data.nama_lengkap);
@@ -1275,24 +2415,30 @@
                         $("#edit_pendidikan").val(data.pendidikan);
                         $("#edit_tempat_lahir").val(data.tempat_lahir);
                         $("#edit_tanggal_lahir").val(data.tanggal_lahir);
+                        $("#edit_golongan_darah").val(data.golongan_darah);
                         $("#edit_jenis_pekerjaan").val(data.jenis_pekerjaan);
                         $("#edit_agama").val(data.agama);
                         $("#edit_status_perkawinan").val(data.status_perkawinan);
+
+                        // Data keluarga
                         $("#edit_ibu").val(data.ibu);
                         $("#edit_ayah").val(data.ayah);
-                        $("#edit_status_hubungan_dalam_keluarga").val(data
-                            .status_hubungan_dalam_keluarga);
-                        $("#edit_tanggal_perkawinan").val(data.tanggal_perkawinan);
+                        $("#edit_status_hubungan_dalam_keluarga").val(
+                            data.status_hubungan_dalam_keluarga
+                        );
+                        $("#edit_tanggal_perkawinan").val(
+                            data.tanggal_perkawinan
+                        );
+
+                        // Alamat
                         $("#edit_alamat").val(data.alamat);
-                        $("#edit_dusun").val(data.dusun);
-                        $("#edit_desa_kelurahan").val(data.desa_kelurahan);
-                        $("#edit_kecamatan").val(data.kecamatan);
-                        $("#edit_kabupaten_kota").val(data.kabupaten_kota);
-                        $("#edit_provinsi").val(data.provinsi);
+
+                        // Kewarganegaraan
                         $("#edit_kewarganegaraan").val(data.kewarganegaraan);
 
                         // Tampilkan modal
                         $("#modalEditPenduduk").modal("show");
+
                     } else {
                         Swal.fire({
                             icon: "error",
@@ -1301,6 +2447,7 @@
                         });
                     }
                 },
+
                 error: function() {
                     Swal.fire({
                         icon: "error",
@@ -1363,11 +2510,13 @@
             });
         });
 
-        //Ajax Detail Penduduk
+        // Ajax Detail Penduduk
         $(document).ready(function() {
-            // Gunakan delegasi event agar tetap bisa diklik walau tombol muncul belakangan
+
+            // Gunakan delegasi event agar tetap bisa diklik
+            // walaupun tombol muncul setelah halaman dimuat
             $(document).on('click', '.btn-detail', function(e) {
-                e.preventDefault(); // cegah aksi default href
+                e.preventDefault();
 
                 var id = $(this).data('id');
 
@@ -1375,48 +2524,83 @@
                     url: '/admin/penduduk/' + id,
                     type: 'GET',
                     dataType: 'json',
+
                     success: function(response) {
                         if (response.success) {
-                            $('#detail_nik').text(response.data.nik);
-                            $('#detail_nama').text(response.data.nama_lengkap);
-                            $('#detail_kelamin').text(response.data.jenis_kelamin);
-                            $('#detail_pendidikan').text(response.data.pendidikan);
-                            $('#detail_tempat_lahir').text(response.data.tempat_lahir);
-                            $('#detail_tanggal_lahir').text(response.data.tanggal_lahir);
-                            $('#detail_pekerjaan').text(response.data.jenis_pekerjaan);
-                            $('#detail_agama').text(response.data.agama);
-                            $('#detail_status_perkawinan').text(response.data
-                                .status_perkawinan);
-                            $('#detail_ibu').text(response.data.ibu);
-                            $('#detail_ayah').text(response.data.ayah);
-                            $('#detail_status_keluarga').text(response.data
-                                .status_hubungan_dalam_keluarga);
-                            $('#detail_tanggal_perkawinan').text(response.data
-                                .tanggal_perkawinan || '-');
-                            $('#detail_alamat').text(response.data.alamat);
-                            $('#detail_dusun').text(response.data.dusun);
-                            $('#detail_desa').text(response.data.desa_kelurahan);
-                            $('#detail_kecamatan').text(response.data.kecamatan);
-                            $('#detail_kabupaten').text(response.data.kabupaten_kota);
-                            $('#detail_provinsi').text(response.data.provinsi);
-                            $('#detail_kewarganegaraan').text(response.data.kewarganegaraan);
 
+                            // Data identitas
+                            $('#detail_nik').text(response.data.nik || '-');
+                            $('#detail_nama').text(response.data.nama_lengkap || '-');
+                            $('#detail_kelamin').text(response.data.jenis_kelamin || '-');
+                            $('#detail_pendidikan').text(response.data.pendidikan || '-');
+                            $('#detail_tempat_lahir').text(response.data.tempat_lahir || '-');
+                            $('#detail_tanggal_lahir').text(response.data.tanggal_lahir || '-');
+                            $('#detail_golongan_darah').text(
+                                response.data.golongan_darah || '-'
+                            );
+                            $('#detail_pekerjaan').text(
+                                response.data.jenis_pekerjaan || '-'
+                            );
+                            $('#detail_agama').text(response.data.agama || '-');
+                            $('#detail_status_perkawinan').text(
+                                response.data.status_perkawinan || '-'
+                            );
+
+                            // Data keluarga
+                            $('#detail_ibu').text(response.data.ibu || '-');
+                            $('#detail_ayah').text(response.data.ayah || '-');
+                            $('#detail_status_keluarga').text(
+                                response.data.status_hubungan_dalam_keluarga || '-'
+                            );
+                            $('#detail_tanggal_perkawinan').text(
+                                response.data.tanggal_perkawinan || '-'
+                            );
+
+                            // Alamat
+                            $('#detail_alamat').text(
+                                response.data.alamat || '-'
+                            );
+
+                            // Kewarganegaraan
+                            $('#detail_kewarganegaraan').text(
+                                response.data.kewarganegaraan || '-'
+                            );
+
+                            // Foto
                             if (response.data.foto) {
-                                $('#detail_foto').attr('src', '/storage/' + response.data.foto);
+                                $('#detail_foto').attr(
+                                    'src',
+                                    '/storage/' + response.data.foto
+                                );
                             } else {
-                                $('#detail_foto').attr('src', '/images/default-user.png');
+                                $('#detail_foto').attr(
+                                    'src',
+                                    '/images/default-user.png'
+                                );
                             }
 
+                            // Tampilkan modal detail
                             $('#modalDetailPenduduk').modal('show');
+
                         } else {
-                            alert('Data penduduk tidak ditemukan!');
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Gagal!',
+                                text: 'Data penduduk tidak ditemukan.'
+                            });
                         }
                     },
+
                     error: function() {
-                        alert('Terjadi kesalahan, coba lagi nanti.');
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: 'Terjadi kesalahan saat memuat data penduduk.'
+                        });
                     }
                 });
             });
+
         });
 
         //Ajax Cari Penduduk

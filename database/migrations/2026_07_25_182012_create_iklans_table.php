@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('iklans', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('desa_id')->nullable()->constrained('desa')->nullOnDelete();
             $table->string('image');
             $table->boolean('is_active')->default(true);
             $table->timestamps();

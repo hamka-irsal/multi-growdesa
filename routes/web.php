@@ -83,13 +83,32 @@ Route::get('/anjungan/riwayat/cetak/{id}', [App\Http\Controllers\Anjungan\Riwaya
 
 
 
-//Route Login Admin
-Route::get('login', [App\Http\Controllers\Admin\AuthController::class, 'showLoginForm'])->name('admin.login');
-Route::post('login', [App\Http\Controllers\Admin\AuthController::class, 'login'])->name('admin.login.post');
-Route::get('logout', [App\Http\Controllers\Admin\AuthController::class, 'logout'])->name('logout');
+//Route Login
+Route::get('/login', [App\Http\Controllers\AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [App\Http\Controllers\AuthController::class, 'login'])->name('login.post');
+Route::get('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
 
-//Route Admin Panel
-Route::middleware(['auth', 'role:admin,aparat'])->group(function () {
+
+// Route Superadmin
+Route::middleware('auth', 'role:superadmin')->group(function () {
+
+    // Route Dashboard
+    Route::get('/superadmin/dashboard', [App\Http\Controllers\Superadmin\DashboardController::class, 'index'])->name('superadmin.dashboard.index');
+
+    // Route Desa
+    Route::get('/superadmin/desa', [App\Http\Controllers\Superadmin\DesaController::class, 'index'])->name('superadmin.desa.index');
+    Route::get('/superadmin/desa/paginate', [App\Http\Controllers\Superadmin\DesaController::class, 'paginate'])->name('superadmin.desa.paginate');
+    Route::get('/search-desa', [App\Http\Controllers\Superadmin\DesaController::class, 'searchDesa'])->name('superadmin.desa.search');
+    Route::post('/superadmin/desa/store', [App\Http\Controllers\Superadmin\DesaController::class, 'store'])->name('superadmin.desa.store');
+    Route::get('/superadmin/desa/{id}/edit', [App\Http\Controllers\Superadmin\DesaController::class, 'edit'])->name('superadmin.desa.edit');
+    Route::put('/superadmin/desa/{id}', [App\Http\Controllers\Superadmin\DesaController::class, 'update'])->name('superadmin.desa.update');
+    Route::delete('/superadmin/desa/{id}', [App\Http\Controllers\Superadmin\DesaController::class, 'destroy'])->name('superadmin.desa.destroy');
+
+});
+
+
+//Route Admin Desa
+Route::middleware(['auth', 'role:admindesa,aparat'])->group(function () {
     //dashboard admin
     Route::get('/admin/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard.index');
 

@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 
 @section('page-title', 'Data-Manajemen-Surat Admin')
 
@@ -158,21 +158,183 @@
         </section>
     </div>
 
-    {{-- Modal Tambah Jenis Surat --}}
-    <div class="modal fade" id="modalTambahJenisSurat" tabindex="-1" role="dialog"
+    {{-- Style khusus modal Jenis Surat --}}
+    <style>
+        .js-modal .modal-content {
+            border: none;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, .15);
+        }
+
+        .js-modal .modal-header {
+            padding: 22px 28px;
+            border: none;
+        }
+
+        .js-modal .modal-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0;
+        }
+
+        .js-modal .close {
+            color: #fff;
+            opacity: .9;
+            font-size: 26px;
+            text-shadow: none;
+        }
+
+        .js-modal .modal-body {
+            padding: 28px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .js-modal .form-group {
+            margin-bottom: 20px;
+        }
+
+        .js-modal .form-group label {
+            font-size: 15px;
+            font-weight: 600;
+            color: #334155;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .js-modal .js-input {
+            width: 100%;
+            padding: 12px 14px;
+            font-size: 15px;
+            color: #1E293B;
+            min-height: 48px;
+            border: 1.5px solid #E2E8F0;
+            border-radius: 10px;
+            background: #fff;
+            outline: none;
+            transition: border-color .15s;
+        }
+
+        .js-modal textarea.js-input {
+            resize: vertical;
+        }
+
+        .js-modal .js-hint {
+            display: block;
+            margin-top: 6px;
+            font-size: 12.5px;
+            color: #64748B;
+        }
+
+        .js-modal .js-error {
+            display: block;
+            margin-top: 6px;
+            font-size: 12.5px;
+            color: #DC2626;
+        }
+
+        .js-modal .modal-footer {
+            background: #fff;
+            border-top: 1.5px solid #F1F5F9;
+            padding: 18px 28px;
+            gap: 10px;
+        }
+
+        .js-modal .js-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 11px 24px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .js-modal .js-btn-cancel {
+            background: #fff;
+            color: #475569;
+            border: 1.5px solid #E2E8F0;
+        }
+
+        .js-modal .js-btn-cancel:hover {
+            background: #F1F5F9;
+        }
+
+        /* Tema hijau (tambah) */
+        .js-modal-add .modal-header {
+            background: #2E7D32;
+        }
+
+        .js-modal-add .modal-body {
+            background: #F8FAFC;
+        }
+
+        .js-modal-add .form-group label i {
+            color: #2E7D32;
+        }
+
+        .js-modal-add .js-input:focus {
+            border-color: #2E7D32;
+        }
+
+        .js-modal-add .js-btn-save {
+            background: #2E7D32;
+            color: #fff;
+            border: none;
+        }
+
+        .js-modal-add .js-btn-save:hover {
+            background: #256528;
+        }
+
+        /* Tema kuning (edit) */
+        .js-modal-edit .modal-header {
+            background: #F59E0B;
+        }
+
+        .js-modal-edit .modal-body {
+            background: #FFFBEB;
+        }
+
+        .js-modal-edit .form-group label i {
+            color: #F59E0B;
+        }
+
+        .js-modal-edit .js-input:focus {
+            border-color: #F59E0B;
+        }
+
+        .js-modal-edit .js-btn-save {
+            background: #F59E0B;
+            color: #fff;
+            border: none;
+        }
+
+        .js-modal-edit .js-btn-save:hover {
+            background: #D97706;
+        }
+    </style>
+
+    {{-- ===================== Modal Tambah Jenis Surat ===================== --}}
+    <div class="modal fade js-modal js-modal-add" id="modalTambahJenisSurat" tabindex="-1" role="dialog"
         aria-labelledby="modalTambahJenisSuratLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content"
-                style="border:none; border-radius:16px; overflow:hidden; box-shadow:0 10px 40px rgba(0,0,0,0.15);">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
 
                 {{-- Header --}}
-                <div class="modal-header" style="background:#2E7D32; padding:22px 28px; border:none;">
-                    <h5 class="modal-title" id="modalTambahJenisSuratLabel"
-                        style="font-size:22px; font-weight:700; color:#fff; display:flex; align-items:center; gap:10px; margin:0;">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTambahJenisSuratLabel">
                         <i class="fas fa-envelope"></i> Tambah Jenis Surat
                     </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
-                        style="color:#fff; opacity:0.9; font-size:26px; text-shadow:none;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -180,57 +342,101 @@
                 <form action="{{ route('admin.jenis-surat.store') }}" method="POST" id="formTambahJenisSurat">
                     @csrf
 
-                    <div class="modal-body" style="padding:28px; background:#F8FAFC;">
+                    <div class="modal-body">
 
-                        {{-- Jenis Surat --}}
-                        <div class="form-group" style="margin-bottom:20px;">
-                            <label
-                                style="font-size:15px; font-weight:600; color:#334155; display:flex; align-items:center; gap:8px; margin-bottom:10px;">
-                                <i class="fas fa-file-alt" style="color:#2E7D32;"></i> Jenis Surat
-                            </label>
-                            <input type="text" name="nama_jenis" id="nama_jenis"
-                                placeholder="Contoh: Surat Keterangan Usaha" required
-                                style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:48px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
-                                onfocus="this.style.borderColor='#2E7D32'" onblur="this.style.borderColor='#E2E8F0'">
+                        <div class="row">
+                            {{-- Kode --}}
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="kode"><i class="fas fa-barcode"></i> Kode</label>
+                                    <input type="text" name="kode" id="kode" class="js-input" maxlength="50"
+                                        placeholder="Contoh: SKU" style="text-transform:uppercase;">
+                                    <span class="js-error" data-error-for="kode"></span>
+                                </div>
+                            </div>
+
+                            {{-- Nama Jenis --}}
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label for="nama_jenis"><i class="fas fa-file-alt"></i> Nama Jenis Surat</label>
+                                    <input type="text" name="nama_jenis" id="nama_jenis" class="js-input"
+                                        maxlength="150" placeholder="Contoh: Surat Keterangan Usaha" required>
+                                    <span class="js-error" data-error-for="nama_jenis"></span>
+                                </div>
+                            </div>
                         </div>
 
-                        {{-- Format Surat --}}
-                        <div class="form-group" style="margin-bottom:20px;">
-                            <label
-                                style="font-size:15px; font-weight:600; color:#334155; display:flex; align-items:center; gap:8px; margin-bottom:10px;">
-                                <i class="fas fa-code" style="color:#2E7D32;"></i> Format Nomor Surat
-                            </label>
-                            <input name="format_nomor" id="format_nomor"
-                                placeholder="Contoh: {nomor}/BRN/{bulan}/{tahun}" required
-                                style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:48px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
-                                onfocus="this.style.borderColor='#2E7D32'" onblur="this.style.borderColor='#E2E8F0'">
+                        {{-- Slug --}}
+                        <div class="form-group">
+                            <label for="slug"><i class="fas fa-link"></i> Slug</label>
+                            <input type="text" name="slug" id="slug" class="js-input" maxlength="100"
+                                placeholder="Contoh: surat-keterangan-usaha">
+                            <small class="js-hint">Opsional. Kosongkan untuk dibuat otomatis dari nama jenis surat.</small>
+                            <span class="js-error" data-error-for="slug"></span>
                         </div>
 
-                        {{-- Nama Tabel --}}
+                        {{-- Deskripsi --}}
+                        <div class="form-group">
+                            <label for="deskripsi"><i class="fas fa-align-left"></i> Deskripsi</label>
+                            <textarea name="deskripsi" id="deskripsi" rows="3" class="js-input"
+                                placeholder="Keterangan singkat tentang jenis surat ini (opsional)"></textarea>
+                            <span class="js-error" data-error-for="deskripsi"></span>
+                        </div>
+
+                        {{-- Format Nomor --}}
+                        <div class="form-group">
+                            <label for="format_nomor"><i class="fas fa-code"></i> Format Nomor Surat</label>
+                            <input type="text" name="format_nomor" id="format_nomor" class="js-input"
+                                maxlength="100" placeholder="Contoh: {nomor}/BRN/{bulan}/{tahun}" required>
+                            <span class="js-error" data-error-for="format_nomor"></span>
+                        </div>
+
+                        <div class="row">
+                            {{-- Sumber Pengajuan --}}
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="sumber_pengajuan"><i class="fas fa-users"></i> Sumber Pengajuan</label>
+                                    <select name="sumber_pengajuan" id="sumber_pengajuan" class="js-input" required>
+                                        <option value="keduanya" selected>Warga &amp; Admin</option>
+                                        <option value="warga">Hanya Warga</option>
+                                        <option value="admin">Hanya Admin</option>
+                                    </select>
+                                    <span class="js-error" data-error-for="sumber_pengajuan"></span>
+                                </div>
+                            </div>
+
+                            {{-- Status --}}
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="status"><i class="fas fa-toggle-on"></i> Status</label>
+                                    <select name="status" id="status" class="js-input" required>
+                                        <option value="aktif" selected>Aktif</option>
+                                        <option value="nonaktif">Nonaktif</option>
+                                    </select>
+                                    <span class="js-error" data-error-for="status"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- Nama Tabel (legacy) --}}
                         <div class="form-group" style="margin-bottom:6px;">
-                            <label
-                                style="font-size:15px; font-weight:600; color:#334155; display:flex; align-items:center; gap:8px; margin-bottom:10px;">
-                                <i class="fas fa-database" style="color:#2E7D32;"></i> Nama Tabel
-                            </label>
-                            <input type="text" name="nama_tabel" id="nama_tabel"
-                                placeholder="Contoh: surat_keterangan_usaha" required
-                                style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:48px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
-                                onfocus="this.style.borderColor='#2E7D32'" onblur="this.style.borderColor='#E2E8F0'">
+                            <label for="nama_tabel"><i class="fas fa-database"></i> Nama Tabel</label>
+                            <input type="text" name="nama_tabel" id="nama_tabel" class="js-input" maxlength="255"
+                                placeholder="Contoh: surat_keterangan_usaha">
+                            <small class="js-hint">Opsional (kompatibilitas data lama). Jika diisi, tabel harus ada di
+                                database.</small>
+                            <span class="js-error" data-error-for="nama_tabel"></span>
                         </div>
 
+                        <span class="js-error" data-error-for="general"></span>
                     </div>
 
                     {{-- Footer --}}
-                    <div class="modal-footer"
-                        style="background:#fff; border-top:1.5px solid #F1F5F9; padding:18px 28px; gap:10px;">
-                        <button type="button" data-dismiss="modal"
-                            style="display:flex; align-items:center; gap:8px; padding:11px 22px; background:#fff; color:#475569; border:1.5px solid #E2E8F0; border-radius:10px; font-size:15px; font-weight:600; cursor:pointer;"
-                            onmouseover="this.style.background='#F1F5F9'" onmouseout="this.style.background='#fff'">
+                    <div class="modal-footer">
+                        <button type="button" data-dismiss="modal" class="js-btn js-btn-cancel">
                             <i class="fas fa-times"></i> Batal
                         </button>
-                        <button type="submit"
-                            style="display:flex; align-items:center; gap:8px; padding:11px 24px; background:#2E7D32; color:#fff; border:none; border-radius:10px; font-size:15px; font-weight:600; cursor:pointer;"
-                            onmouseover="this.style.background='#256528'" onmouseout="this.style.background='#2E7D32'">
+                        <button type="submit" class="js-btn js-btn-save">
                             <i class="fas fa-save"></i> Simpan
                         </button>
                     </div>
@@ -241,75 +447,122 @@
     </div>
 
 
-    {{-- Modal Edit Jenis Surat --}}
-    <div class="modal fade" id="modalEditJenisSurat" tabindex="-1" role="dialog"
+    {{-- ===================== Modal Edit Jenis Surat ===================== --}}
+    <div class="modal fade js-modal js-modal-edit" id="modalEditJenisSurat" tabindex="-1" role="dialog"
         aria-labelledby="modalEditJenisSuratLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content"
-                style="border:none; border-radius:16px; overflow:hidden; box-shadow:0 10px 40px rgba(0,0,0,0.15);">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
 
                 {{-- Header --}}
-                <div class="modal-header" style="background:#F59E0B; padding:22px 28px; border:none;">
-                    <h5 class="modal-title" id="modalEditJenisSuratLabel"
-                        style="font-size:22px; font-weight:700; color:#fff; display:flex; align-items:center; gap:10px; margin:0;">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalEditJenisSuratLabel">
                         <i class="fas fa-envelope"></i> Edit Jenis Surat
                     </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
-                        style="color:#fff; opacity:0.9; font-size:26px; text-shadow:none;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
 
-                <form method="POST" enctype="multipart/form-data" id="formEditJenisSurat">
+                <form method="POST" id="formEditJenisSurat">
                     @csrf
                     <input type="hidden" name="_method" value="PUT">
                     <input type="hidden" name="id" id="edit_id_jenis_surat">
 
-                    <div class="modal-body" style="padding:28px; background:#FFFBEB;">
+                    <div class="modal-body">
 
-                        <div class="form-group" style="margin-bottom:20px;">
-                            <label
-                                style="font-size:15px; font-weight:600; color:#334155; display:flex; align-items:center; gap:8px; margin-bottom:10px;">
-                                <i class="fas fa-file-alt" style="color:#F59E0B;"></i> Nama Jenis Surat
-                            </label>
-                            <input type="text" name="nama_jenis" id="edit_nama_jenis" required
-                                style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:48px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
-                                onfocus="this.style.borderColor='#F59E0B'" onblur="this.style.borderColor='#E2E8F0'">
+                        <div class="row">
+                            {{-- Kode --}}
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="edit_kode"><i class="fas fa-barcode"></i> Kode</label>
+                                    <input type="text" name="kode" id="edit_kode" class="js-input" maxlength="50"
+                                        style="text-transform:uppercase;">
+                                    <span class="js-error" data-error-for="kode"></span>
+                                </div>
+                            </div>
+
+                            {{-- Nama Jenis --}}
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label for="edit_nama_jenis"><i class="fas fa-file-alt"></i> Nama Jenis Surat</label>
+                                    <input type="text" name="nama_jenis" id="edit_nama_jenis" class="js-input"
+                                        maxlength="150" required>
+                                    <span class="js-error" data-error-for="nama_jenis"></span>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="form-group" style="margin-bottom:20px;">
-                            <label
-                                style="font-size:15px; font-weight:600; color:#334155; display:flex; align-items:center; gap:8px; margin-bottom:10px;">
-                                <i class="fas fa-hashtag" style="color:#F59E0B;"></i> Format Nomor
-                            </label>
-                            <input type="text" name="format_nomor" id="edit_format_nomor" required
-                                style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:48px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
-                                onfocus="this.style.borderColor='#F59E0B'" onblur="this.style.borderColor='#E2E8F0'">
+                        {{-- Slug --}}
+                        <div class="form-group">
+                            <label for="edit_slug"><i class="fas fa-link"></i> Slug</label>
+                            <input type="text" name="slug" id="edit_slug" class="js-input" maxlength="100">
+                            <small class="js-hint">Kosongkan untuk mempertahankan slug saat ini (atau dibuat otomatis jika
+                                belum ada).</small>
+                            <span class="js-error" data-error-for="slug"></span>
                         </div>
 
+                        {{-- Deskripsi --}}
+                        <div class="form-group">
+                            <label for="edit_deskripsi"><i class="fas fa-align-left"></i> Deskripsi</label>
+                            <textarea name="deskripsi" id="edit_deskripsi" rows="3" class="js-input"></textarea>
+                            <span class="js-error" data-error-for="deskripsi"></span>
+                        </div>
+
+                        {{-- Format Nomor --}}
+                        <div class="form-group">
+                            <label for="edit_format_nomor"><i class="fas fa-hashtag"></i> Format Nomor</label>
+                            <input type="text" name="format_nomor" id="edit_format_nomor" class="js-input"
+                                maxlength="100" required>
+                            <span class="js-error" data-error-for="format_nomor"></span>
+                        </div>
+
+                        <div class="row">
+                            {{-- Sumber Pengajuan --}}
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="edit_sumber_pengajuan"><i class="fas fa-users"></i> Sumber
+                                        Pengajuan</label>
+                                    <select name="sumber_pengajuan" id="edit_sumber_pengajuan" class="js-input" required>
+                                        <option value="keduanya">Warga &amp; Admin</option>
+                                        <option value="warga">Hanya Warga</option>
+                                        <option value="admin">Hanya Admin</option>
+                                    </select>
+                                    <span class="js-error" data-error-for="sumber_pengajuan"></span>
+                                </div>
+                            </div>
+
+                            {{-- Status --}}
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="edit_status"><i class="fas fa-toggle-on"></i> Status</label>
+                                    <select name="status" id="edit_status" class="js-input" required>
+                                        <option value="aktif">Aktif</option>
+                                        <option value="nonaktif">Nonaktif</option>
+                                    </select>
+                                    <span class="js-error" data-error-for="status"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- Nama Tabel (legacy) --}}
                         <div class="form-group" style="margin-bottom:6px;">
-                            <label
-                                style="font-size:15px; font-weight:600; color:#334155; display:flex; align-items:center; gap:8px; margin-bottom:10px;">
-                                <i class="fas fa-database" style="color:#F59E0B;"></i> Nama Tabel
-                            </label>
-                            <input type="text" name="nama_tabel" id="edit_nama_tabel" required
-                                style="width:100%; padding:12px 14px; font-size:15px; color:#1E293B; height:48px; border:1.5px solid #E2E8F0; border-radius:10px; background:#fff; outline:none; transition:border-color .15s;"
-                                onfocus="this.style.borderColor='#F59E0B'" onblur="this.style.borderColor='#E2E8F0'">
+                            <label for="edit_nama_tabel"><i class="fas fa-database"></i> Nama Tabel</label>
+                            <input type="text" name="nama_tabel" id="edit_nama_tabel" class="js-input"
+                                maxlength="255">
+                            <small class="js-hint">Opsional (kompatibilitas data lama). Jika diisi, tabel harus ada di
+                                database.</small>
+                            <span class="js-error" data-error-for="nama_tabel"></span>
                         </div>
 
+                        <span class="js-error" data-error-for="general"></span>
                     </div>
 
                     {{-- Footer --}}
-                    <div class="modal-footer"
-                        style="background:#fff; border-top:1.5px solid #F1F5F9; padding:18px 28px; gap:10px;">
-                        <button type="button" data-dismiss="modal"
-                            style="display:flex; align-items:center; gap:8px; padding:11px 22px; background:#fff; color:#475569; border:1.5px solid #E2E8F0; border-radius:10px; font-size:15px; font-weight:600; cursor:pointer;"
-                            onmouseover="this.style.background='#F1F5F9'" onmouseout="this.style.background='#fff'">
+                    <div class="modal-footer">
+                        <button type="button" data-dismiss="modal" class="js-btn js-btn-cancel">
                             <i class="fas fa-times"></i> Batal
                         </button>
-                        <button type="submit"
-                            style="display:flex; align-items:center; gap:8px; padding:11px 24px; background:#F59E0B; color:#fff; border:none; border-radius:10px; font-size:15px; font-weight:600; cursor:pointer;"
-                            onmouseover="this.style.background='#D97706'" onmouseout="this.style.background='#F59E0B'">
+                        <button type="submit" class="js-btn js-btn-save">
                             <i class="fas fa-save"></i> Simpan
                         </button>
                     </div>
@@ -444,7 +697,8 @@
             });
         });
 
-        // 🟡 AJAX Edit Jenis Surat
+
+        // ===================== Edit Jenis Surat (ambil data) =====================
         $(document).on("click", ".btn-edit", function() {
             let id = $(this).data("id");
 
@@ -455,13 +709,21 @@
                 success: function(response) {
                     if (response.success) {
                         let data = response.data;
+                        let $form = $("#formEditJenisSurat");
+
+                        clearJenisSuratErrors($form);
 
                         // Isi form modal
-                        $("#formEditJenisSurat").attr("action", `/admin/jenis-surat/${id}`);
+                        $form.attr("action", `/admin/jenis-surat/${id}`);
                         $("#edit_id_jenis_surat").val(data.id);
+                        $("#edit_kode").val(data.kode || "");
                         $("#edit_nama_jenis").val(data.nama_jenis);
+                        $("#edit_slug").val(data.slug || "");
+                        $("#edit_deskripsi").val(data.deskripsi || "");
                         $("#edit_format_nomor").val(data.format_nomor);
-                        $("#edit_nama_tabel").val(data.nama_tabel);
+                        $("#edit_sumber_pengajuan").val(data.sumber_pengajuan || "keduanya");
+                        $("#edit_status").val(data.status || "aktif");
+                        $("#edit_nama_tabel").val(data.nama_tabel || "");
 
                         $("#modalEditJenisSurat").modal("show");
                     } else {
@@ -480,6 +742,46 @@
                     });
                 },
             });
+        });
+
+        // ===================== Update Jenis Surat (simpan perubahan) =====================
+        $("#formEditJenisSurat").on("submit", function(e) {
+            e.preventDefault();
+
+            let $form = $(this);
+            let $btn = $form.find('button[type="submit"]');
+
+            clearJenisSuratErrors($form);
+            $btn.prop("disabled", true);
+
+            $.ajax({
+                url: $form.attr("action"),
+                type: "POST", // method spoofing lewat input _method=PUT
+                data: $form.serialize(),
+                dataType: "json",
+                success: function(response) {
+                    $("#modalEditJenisSurat").modal("hide");
+
+                    Swal.fire({
+                        icon: "success",
+                        title: "Berhasil!",
+                        text: response.message,
+                        timer: 1500,
+                        showConfirmButton: false,
+                    }).then(() => location.reload());
+                },
+                error: function(xhr) {
+                    handleJenisSuratAjaxError($form, xhr, "Gagal memperbarui data.");
+                },
+                complete: function() {
+                    $btn.prop("disabled", false);
+                },
+            });
+        });
+
+        // Bersihkan pesan error saat modal edit ditutup
+        $("#modalEditJenisSurat").on("hidden.bs.modal", function() {
+            clearJenisSuratErrors($("#formEditJenisSurat"));
         });
 
         // 🟡 AJAX Submit Edit Jenis Surat

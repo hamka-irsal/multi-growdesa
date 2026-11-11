@@ -12,8 +12,14 @@ class Dusun extends Model
     protected $table = 'dusun';
 
     protected $fillable = [
+        'desa_id',
         'nama_dusun',
         'nama_kepdus',
         'no_wa',
     ];
+
+    public function desa()
+    {
+        return $this->belongsTo(Desa::class);
+    }
 }

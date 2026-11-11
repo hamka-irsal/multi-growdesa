@@ -12,6 +12,7 @@ class SuratDomisili extends Model
     protected $table = 'surat_domisili';
 
     protected $fillable = [
+        'desa_id',
         'penduduk_id',
         'surat_id',
     ];
@@ -26,5 +27,10 @@ class SuratDomisili extends Model
     public function surat()
     {
         return $this->belongsTo(Surat::class);
+    }
+
+    public function desa()
+    {
+        return $this->belongsTo(Desa::class);
     }
 }

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('dusun', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('desa_id')->nullable()->constrained('desa')->nullOnDelete();
             $table->string('nama_dusun');
             $table->string('nama_kepdus');
             $table->string('no_wa');

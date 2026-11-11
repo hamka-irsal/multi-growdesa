@@ -12,9 +12,15 @@ class SuratTidakMampu extends Model
     protected $table = 'surat_tidak_mampu';
 
     protected $fillable = [
+        'desa_id',
         'penduduk_id',
         'surat_id',
     ];
+
+    public function desa()
+    {
+        return $this->belongsTo(Desa::class);
+    }
 
     // Relasi ke model Penduduk
     public function penduduk()
@@ -28,4 +34,3 @@ class SuratTidakMampu extends Model
         return $this->belongsTo(Surat::class);
     }
 }
-

@@ -9,6 +9,7 @@ return new class extends Migration {
     {
         Schema::create('surat_kehilangan', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('desa_id')->nullable()->constrained('desa')->nullOnDelete();
             $table->foreignId('penduduk_id')->constrained('penduduk')->onDelete('cascade');
             $table->foreignId('surat_id')->nullable()->constrained('surat')->onDelete('cascade');
             $table->string('barang_hilang')->nullable();

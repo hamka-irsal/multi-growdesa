@@ -17,21 +17,48 @@ class UserTableSeeder extends Seeder
      */
     public function run(): void
     {
-        //create data user
-        User::create([
-            'name'      => 'Administrator',
-            'email'     => 'admin@gmail.com',
-            'password'  => bcrypt('password')
+        /*
+    |--------------------------------------------------------------------------
+    | Create Role Superadmin
+    |--------------------------------------------------------------------------
+    */
+
+        $superadminRole = Role::firstOrCreate([
+            'name'       => 'superadmin',
+            'guard_name' => 'api',
         ]);
 
-        //assign permission to role
-        $role = Role::find(1);
+        /*
+    |--------------------------------------------------------------------------
+    | Assign All Permissions to Superadmin
+    |--------------------------------------------------------------------------
+    */
+
         $permissions = Permission::all();
 
-        $role->syncPermissions($permissions);
+        $superadminRole->syncPermissions($permissions);
 
-        //assign role with permission to user
-        $user = User::find(1);
-        $user->assignRole($role->name);
+        /*
+    |--------------------------------------------------------------------------
+    | Create Superadmin User
+    |--------------------------------------------------------------------------
+    */
+
+        $superadmin = User::create([
+            'name'              => 'Superadmin GrowDesa',
+            'email'             => 'superadmin@growdesa.id',
+            'password'          => bcrypt('password'),
+            'desa_id'           => null,
+            'role'              => 'superadmin',
+            'status_verifikasi' => 'disetujui',
+        ]);
+
+        /*
+    |--------------------------------------------------------------------------
+    | Assign Role to User
+    |--------------------------------------------------------------------------
+    */
+
+        $superadmin->assignRole($superadminRole);
     }
 }

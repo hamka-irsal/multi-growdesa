@@ -11,6 +11,22 @@ use Illuminate\Support\Facades\Log;
 class NotifController extends Controller
 {
     /**
+     * Mengambil desa_id dari user yang sedang login.
+     */
+    private function currentDesaId(): int
+    {
+        $desaId = auth()->user()?->desa_id;
+
+        abort_unless(
+            $desaId,
+            403,
+            'Akun tidak terhubung dengan desa.'
+        );
+
+        return (int) $desaId;
+    }
+
+    /**
      * Mengambil jumlah notifikasi.
      *
      * Digunakan untuk badge 🔔 pada navbar.
@@ -22,6 +38,7 @@ class NotifController extends Controller
     public function count()
     {
         try {
+            $desaId = $this->currentDesaId();
 
             /*
             |--------------------------------------------------------------------------
@@ -30,9 +47,14 @@ class NotifController extends Controller
             */
 
             $jumlahSurat = Surat::where(
-                'status_surat',
-                'proses'
-            )->count();
+                'desa_id',
+                $desaId
+            )
+                ->where(
+                    'status_surat',
+                    'proses'
+                )
+                ->count();
 
 
             /*
@@ -42,9 +64,13 @@ class NotifController extends Controller
             */
 
             $jumlahVerifikasi = User::where(
-                'status_verifikasi',
-                'pending'
+                'desa_id',
+                $desaId
             )
+                ->where(
+                    'status_verifikasi',
+                    'pending'
+                )
                 ->where(
                     'role',
                     'penduduk'
@@ -83,6 +109,9 @@ class NotifController extends Controller
             Log::error(
                 'Kesalahan saat mengambil jumlah notifikasi',
                 [
+                    'desa_id' =>
+                        auth()->user()?->desa_id,
+
                     'message' =>
                         $e->getMessage(),
 
@@ -122,13 +151,16 @@ class NotifController extends Controller
     {
         try {
 
+            $desaId = $this->currentDesaId();
+
+
             /*
             |--------------------------------------------------------------------------
             | Surat Masuk
             |--------------------------------------------------------------------------
             |
             | Hanya surat yang masih dalam proses
-            | yang ditampilkan sebagai notifikasi.
+            | dan milik desa yang sedang login.
             |
             */
 
@@ -136,6 +168,10 @@ class NotifController extends Controller
                 'penduduk',
                 'jenisSurat',
             ])
+                ->where(
+                    'desa_id',
+                    $desaId
+                )
                 ->where(
                     'status_surat',
                     'proses'
@@ -149,11 +185,19 @@ class NotifController extends Controller
             |--------------------------------------------------------------------------
             | Akun Menunggu Verifikasi
             |--------------------------------------------------------------------------
+            |
+            | Hanya akun penduduk dari desa
+            | yang sedang login.
+            |
             */
 
             $verifikasi = User::with([
                 'penduduk',
             ])
+                ->where(
+                    'desa_id',
+                    $desaId
+                )
                 ->where(
                     'status_verifikasi',
                     'pending'
@@ -276,9 +320,6 @@ class NotifController extends Controller
                     |--------------------------------------------------------------------------
                     | Klik notifikasi surat
                     |--------------------------------------------------------------------------
-                    |
-                    | Langsung menuju halaman pengajuan surat.
-                    |
                     */
 
                     'url' =>
@@ -326,10 +367,8 @@ class NotifController extends Controller
 
 
                 /*
-                |--------------------------------------------------------------------------
                 | Jika data penduduk tidak memiliki nama,
                 | gunakan nama dari tabel users.
-                |--------------------------------------------------------------------------
                 */
 
                 $namaPenduduk =
@@ -403,9 +442,6 @@ class NotifController extends Controller
                     |--------------------------------------------------------------------------
                     | Klik notifikasi verifikasi
                     |--------------------------------------------------------------------------
-                    |
-                    | Langsung menuju halaman verifikasi.
-                    |
                     */
 
                     'url' =>
@@ -461,6 +497,9 @@ class NotifController extends Controller
             Log::error(
                 'Kesalahan saat mengambil notifikasi terbaru',
                 [
+                    'desa_id' =>
+                        auth()->user()?->desa_id,
+
                     'message' =>
                         $e->getMessage(),
 

@@ -10,6 +10,7 @@ return new class extends Migration
     {
         Schema::create('persetujuan', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('desa_id')->nullable()->constrained('desa')->nullOnDelete();
             $table->foreignId('jenis_surat_id')->constrained('jenis_surat')->onDelete('cascade');
             $table->foreignId('aparat_id')->constrained('aparat')->onDelete('cascade');
             $table->string('jabatan');

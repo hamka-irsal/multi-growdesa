@@ -12,10 +12,16 @@ class SuratKematian extends Model
     protected $table = 'surat_kematian';
 
     protected $fillable = [
+        'desa_id',
         'penduduk_id',
         'surat_id',
         'tanggal_kematian',
     ];
+
+    public function desa()
+    {
+        return $this->belongsTo(Desa::class);
+    }
 
     // Relasi ke model Penduduk
     public function penduduk()
@@ -29,4 +35,3 @@ class SuratKematian extends Model
         return $this->belongsTo(Surat::class);
     }
 }
-

@@ -10,6 +10,7 @@ class CreateProduksTable extends Migration
     {
         Schema::create('produk', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('desa_id')->nullable()->constrained('desa')->nullOnDelete();
             $table->string('nama_produk');
             $table->string('slug')->unique();
             $table->text('deskripsi')->nullable();

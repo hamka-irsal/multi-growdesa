@@ -10,6 +10,7 @@ class Aparat extends Model
     use HasFactory;
     protected $table = 'aparat';
     protected $fillable = [
+        'desa_id',
         'user_id',
         'nama',
         'jabatan',
@@ -19,5 +20,10 @@ class Aparat extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function desa()
+    {
+        return $this->belongsTo(Desa::class);
     }
 }

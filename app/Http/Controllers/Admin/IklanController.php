@@ -13,18 +13,41 @@ use Illuminate\Support\Facades\Validator;
 class IklanController extends Controller
 {
     /**
+     * Mengambil desa_id dari user yang sedang login.
+     */
+    private function currentDesaId(): int
+    {
+        $desaId = auth()->user()?->desa_id;
+
+        abort_unless(
+            $desaId,
+            403,
+            'Akun tidak terhubung dengan desa.'
+        );
+
+        return (int) $desaId;
+    }
+
+    /**
      * Menampilkan halaman iklan.
      */
     public function index(Request $request)
     {
+        $desaId = $this->currentDesaId();
+
         $perPage = $request->input('perPage', 10);
         $search = strtolower($request->input('search', ''));
 
-        $query = Iklan::query();
+        $query = Iklan::where('desa_id', $desaId);
 
         if (in_array($search, ['aktif', 'active', '1'])) {
             $query->where('is_active', true);
-        } elseif (in_array($search, ['nonaktif', 'tidak aktif', 'inactive', '0'])) {
+        } elseif (
+            in_array(
+                $search,
+                ['nonaktif', 'tidak aktif', 'inactive', '0']
+            )
+        ) {
             $query->where('is_active', false);
         }
 
@@ -45,11 +68,13 @@ class IklanController extends Controller
     public function search(Request $request)
     {
         try {
+            $desaId = $this->currentDesaId();
+
             $search = strtolower(
                 $request->input('query', '')
             );
 
-            $query = Iklan::query();
+            $query = Iklan::where('desa_id', $desaId);
 
             if (in_array($search, ['aktif', 'active', '1'])) {
                 $query->where('is_active', true);
@@ -72,6 +97,7 @@ class IklanController extends Controller
             ]);
         } catch (\Throwable $e) {
             Log::error('Kesalahan saat pencarian iklan', [
+                'desa_id' => auth()->user()?->desa_id,
                 'message' => $e->getMessage(),
             ]);
 
@@ -87,9 +113,11 @@ class IklanController extends Controller
      */
     public function paginate(Request $request)
     {
+        $desaId = $this->currentDesaId();
+
         $perPage = $request->input('perPage', 10);
 
-        $iklans = Iklan::query()
+        $iklans = Iklan::where('desa_id', $desaId)
             ->latest()
             ->paginate($perPage);
 
@@ -101,6 +129,8 @@ class IklanController extends Controller
      */
     public function store(Request $request)
     {
+        $desaId = $this->currentDesaId();
+
         $validator = Validator::make($request->all(), [
             'image' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
             'is_active' => 'nullable|boolean',
@@ -121,6 +151,7 @@ class IklanController extends Controller
                 ->store('iklan', 'public');
 
             $iklan = Iklan::create([
+                'desa_id' => $desaId,
                 'image' => $path,
                 'is_active' => $request->boolean(
                     'is_active',
@@ -129,6 +160,11 @@ class IklanController extends Controller
             ]);
 
             DB::commit();
+
+            Log::info('Iklan berhasil ditambahkan', [
+                'id' => $iklan->id,
+                'desa_id' => $desaId,
+            ]);
 
             return response()->json([
                 'success' => true,
@@ -139,6 +175,7 @@ class IklanController extends Controller
             DB::rollBack();
 
             Log::error('Kesalahan saat menyimpan iklan', [
+                'desa_id' => $desaId,
                 'message' => $e->getMessage(),
             ]);
 
@@ -158,22 +195,38 @@ class IklanController extends Controller
      */
     public function edit($id)
     {
-        $iklan = Iklan::findOrFail($id);
+        try {
+            $desaId = $this->currentDesaId();
 
-        return response()->json([
-            'success' => true,
-            'data' => [
-                'id' => $iklan->id,
+            $iklan = Iklan::where('desa_id', $desaId)
+                ->findOrFail($id);
 
-                'image' => $iklan->image,
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'id' => $iklan->id,
 
-                'image_url' => $this->getImageUrl(
-                    $iklan->image
-                ),
+                    'image' => $iklan->image,
 
-                'is_active' => (bool) $iklan->is_active,
-            ],
-        ]);
+                    'image_url' => $this->getImageUrl(
+                        $iklan->image
+                    ),
+
+                    'is_active' => (bool) $iklan->is_active,
+                ],
+            ]);
+        } catch (\Throwable $e) {
+            Log::error('Kesalahan saat mengambil data iklan untuk edit', [
+                'id' => $id,
+                'desa_id' => auth()->user()?->desa_id,
+                'message' => $e->getMessage(),
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Data iklan tidak ditemukan.',
+            ], 404);
+        }
     }
 
     /**
@@ -181,6 +234,8 @@ class IklanController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $desaId = $this->currentDesaId();
+
         $validator = Validator::make($request->all(), [
             'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'is_active' => 'nullable|boolean',
@@ -196,7 +251,12 @@ class IklanController extends Controller
         try {
             DB::beginTransaction();
 
-            $iklan = Iklan::findOrFail($id);
+            /**
+             * Hanya boleh mengambil iklan
+             * milik desa yang sedang login.
+             */
+            $iklan = Iklan::where('desa_id', $desaId)
+                ->findOrFail($id);
 
             if ($request->hasFile('image')) {
                 $this->deleteImage(
@@ -208,6 +268,8 @@ class IklanController extends Controller
                     ->store('iklan', 'public');
             }
 
+            $iklan->desa_id = $desaId;
+
             $iklan->is_active = $request->boolean(
                 'is_active'
             );
@@ -215,6 +277,11 @@ class IklanController extends Controller
             $iklan->save();
 
             DB::commit();
+
+            Log::info('Iklan berhasil diperbarui', [
+                'id' => $iklan->id,
+                'desa_id' => $desaId,
+            ]);
 
             return response()->json([
                 'success' => true,
@@ -225,6 +292,8 @@ class IklanController extends Controller
             DB::rollBack();
 
             Log::error('Kesalahan saat memperbarui iklan', [
+                'id' => $id,
+                'desa_id' => $desaId,
                 'message' => $e->getMessage(),
             ]);
 
@@ -245,9 +314,16 @@ class IklanController extends Controller
     public function destroy($id)
     {
         try {
+            $desaId = $this->currentDesaId();
+
             DB::beginTransaction();
 
-            $iklan = Iklan::findOrFail($id);
+            /**
+             * Hanya boleh menghapus iklan
+             * milik desa yang sedang login.
+             */
+            $iklan = Iklan::where('desa_id', $desaId)
+                ->findOrFail($id);
 
             $this->deleteImage(
                 $iklan->image
@@ -257,6 +333,11 @@ class IklanController extends Controller
 
             DB::commit();
 
+            Log::info('Iklan berhasil dihapus', [
+                'id' => $id,
+                'desa_id' => $desaId,
+            ]);
+
             return response()->json([
                 'success' => true,
                 'message' => 'Iklan berhasil dihapus.',
@@ -265,6 +346,8 @@ class IklanController extends Controller
             DB::rollBack();
 
             Log::error('Kesalahan saat menghapus iklan', [
+                'id' => $id,
+                'desa_id' => auth()->user()?->desa_id,
                 'message' => $e->getMessage(),
             ]);
 

@@ -11,6 +11,7 @@ class Iklan extends Model
     use HasFactory;
 
     protected $fillable = [
+        'desa_id',
         'image',
         'is_active',
     ];
@@ -22,9 +23,14 @@ class Iklan extends Model
     protected function image(): Attribute
     {
         return Attribute::make(
-            get: fn ($image) => $image
+            get: fn($image) => $image
                 ? asset('storage/' . $image)
                 : null,
         );
+    }
+
+    public function desa()
+    {
+        return $this->belongsTo(Desa::class);
     }
 }

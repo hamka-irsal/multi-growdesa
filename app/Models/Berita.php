@@ -12,6 +12,7 @@ class Berita extends Model
     protected $table = 'berita';
 
     protected $fillable = [
+        'desa_id',
         'judul',
         'slug',
         'category_id',
@@ -28,5 +29,10 @@ class Berita extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function desa()
+    {
+        return $this->belongsTo(Desa::class);
     }
 }

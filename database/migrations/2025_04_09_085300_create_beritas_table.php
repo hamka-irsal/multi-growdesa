@@ -9,6 +9,7 @@ return new class extends Migration {
     {
         Schema::create('berita', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('desa_id')->nullable()->constrained('desa')->nullOnDelete();
             $table->string('judul');
             $table->string('slug')->unique();
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();

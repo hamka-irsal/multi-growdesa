@@ -8,9 +8,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
-use Tymon\JWTAuth\Contracts\JWTSubject; // <-- import JWTSubject
+use Tymon\JWTAuth\Contracts\JWTSubject;
+use App\Models\Desa;
+use App\Models\Aparat;
+use App\Models\Penduduk;
 
-class User extends Authenticatable implements JWTSubject // <-- tambahkan ini
+class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
@@ -27,6 +30,7 @@ class User extends Authenticatable implements JWTSubject // <-- tambahkan ini
      * @var array<int, string>
      */
     protected $fillable = [
+        'desa_id',
         'name',
         'email',
         'nik',
@@ -53,6 +57,14 @@ class User extends Authenticatable implements JWTSubject // <-- tambahkan ini
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Relasi User ke Desa
+     */
+    public function desa()
+    {
+        return $this->belongsTo(Desa::class);
+    }
 
     /**
      * getPermissionArray
@@ -84,36 +96,6 @@ class User extends Authenticatable implements JWTSubject // <-- tambahkan ini
     public function getJWTCustomClaims()
     {
         return [];
-    }
-
-    /**
-     * posts
-     *
-     * @return void
-     */
-    public function posts()
-    {
-        return $this->hasMany(Post::class);
-    }
-
-    /**
-     * products
-     *
-     * @return void
-     */
-    public function products()
-    {
-        return $this->hasMany(Product::class);
-    }
-
-    /**
-     * pages
-     *
-     * @return void
-     */
-    public function pages()
-    {
-        return $this->hasMany(Page::class);
     }
 
     public function aparat()
